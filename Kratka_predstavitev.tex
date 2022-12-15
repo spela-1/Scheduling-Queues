@@ -1,0 +1,43 @@
+
+\documentclass[a4paper, pt14]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel}
+\usepackage{lmodern}
+%\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+\title{%
+Scheduling-Queues\\
+  \large Finančni praktikum}
+\author{Špela Bernardič, Ioann Stanković}
+\date{16. \ 12. \ 2022}
+
+\maketitle
+
+\section{Navodilo naloge}
+Naloga se ukvarja z algoritmi 'Scheduling-Queues', ki uporabljajo podatke napovedane s strojnim učenje.
+Potrebno napisati simulacijo vrste, ki uporabi napovedane čase trajanja opravil in jo nato uporabiti za analizo.
+Preveriti je potrebno kako različe porazdelitve trajanj opravila in kvaliteta napovedi vplivata na povprečen čas čakanja v vrsti.
+Napovedi časov trajanja opravil se lahko določi s dodajanjem šumov pravim vrednostim, lahko pa se uporabi naučen model
+
+
+\section{Obrazložitev algoritmov}
+
+\section{Potek dela}
+
+Najprej se bova lotila pisanja algoritmov FCFS, SJF, PSJF, SRPT  in pa variacije z napovedmi torej SPJF, PSPJF, SPRPT. To bova naredila v programskem jeziku Python.
+Vsi napisani algoritmi bodo vračali koliko časa v povprečju opravila čakajo v vrsti.\\
+Drugi del naloge je simulacija podatkov. Ta del bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
+Generirani podatki bodo morali vsebovati opravila, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
+Napovedi Časa izvajanja bova določila tako, da bova prvotnim podatkom dodala šum.
+Na simuliranih podatkih bova uporabila napisane algoritme iz prvega dela naloge in naredila analizo razultatov.
+\end{document}
+
+
+
+
