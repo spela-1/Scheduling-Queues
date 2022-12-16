@@ -1,6 +1,6 @@
 ## Core latex/pdflatex auxiliary files:
 
-.aux
-.fdb_latexmk
-.fls
-.synctex
+*.aux
+*.fdb_latexmk
+*.fls
+*.synctex
