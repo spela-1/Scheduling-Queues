@@ -20,24 +20,34 @@ Scheduling-Queues\\
 \maketitle
 
 \section{Navodilo naloge}
-Naloga se ukvarja z algoritmi 'Scheduling-Queues', ki uporabljajo podatke napovedane s strojnim učenje.
-Potrebno je napisati simulacijo vrste, ki uporabi napovedane čase trajanja opravil in jo nato uporabiti za analizo.
-Preveriti je potrebno kako različe porazdelitve trajanj opravila in kvaliteta napovedi vplivata na povprečen čas čakanja v vrsti.
-Napovedi časov trajanja opravil se lahko določi s dodajanjem šumov pravim vrednostim, lahko pa se uporabi naučen model
+Naloga se ukvarja z algoritmi 'Scheduling-Queues', ki uporabljajo podatke napovedane s strojnim učenjem.
+Potrebno je napisati simulacijo procesov, ki uporabi napovedane čase trajanja procesov in nato narediti analizo časa čakanja procesov.
+Preveriti je potrebno, kako različene porazdelitve trajanja procesov in kvaliteta napovedi vplivata na povprečen čas čakanja v vrsti.
+Napovedi časov trajanja procesov se lahko določi z dodajanjem šumov pravim vrednostim, lahko pa se uporabi naučen model.
 
 
 \section{Obrazložitev algoritmov}
+Algoritmi, ki se uporabljajo za razvrščanje procesov so naslednji:
+\begin{itemize}
+  \item FCFS (First Come First Serve) je algoritem, ki izvaja procese po vrstnem redu njihovega prihoda.
+  \item SJF (Non-Preemptive Shortest Job First) je algoritem, pri katerem se za naslednjo izvedbo izbere proces z najkrajšim časom izvajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
+  \item PSJF (Preemptive Shortest Job First) je algoritem, pri katerem se proces z najkrajšim časom trajanja začne izvajati prvi. Ob prihodu novega procesa se le ta postavi v čakalno vrsto. Če pa pride proces s krajšim trajanjem od procesa, ki se trenutno izvaja, se trenutni proces ustavi in vrne v vrsto. Začne se izvajati proces s krajšim trajanjem.
+  \item SRPT (Shortest remaining processing time) je algoritem podoben PSJF, vendar ta upošteva preostalo trajanje procesov.
+\end{itemize}
+Za algoritme SJF,PSJF in SRPT poznamo tudi variacije SPJF, PSPJF in SPRPT. Te se uporabljajo, ko ne poznamo dejaskega časa trajanja procesov. V tem primeru algoritem določa vrstni red izvajanja procesov tako, da uporabi neko napoved trajanja procesa namesto dejanskega trajanja.
 
+\newpage
 \section{Potek dela}
 
-Najprej se bova lotila pisanja algoritmov FCFS, SJF, PSJF, SRPT  in pa variacije z napovedmi torej SPJF, PSPJF, SPRPT. To bova naredila v programskem jeziku Python.
-Vsi napisani algoritmi bodo vračali koliko časa v povprečju opravila čakajo v vrsti.\\
-Drugi del naloge je simulacija podatkov. Ta del bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
-Generirani podatki bodo morali vsebovati opravila, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
-Napovedi Časa izvajanja bova določila tako, da bova prvotnim podatkom dodala šum.
+Najprej se bova lotila pisanja algoritmov FCFS, SJF, PSJF, SRPT in variacij z napovedmi torej SPJF, PSPJF, SPRPT. 
+To bova naredila v programskem jeziku Python.
+Vsi napisani algoritmi bodo vračali, koliko časa procesi čakajo v vrsti.\\
+V drugem delu naloge se bova ukvarjala s simulacijo podatkov. To bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
+Generirani podatki bodo morali vsebovati procese, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
+Za simulacijo podatkov bova uporabila normalno in beta porazdelitev. 
+Napovedi časa izvajanja procesov pa bova določila tako, da bova prvotnim podatkom s spreminjanjem variance dodala šum. \\
+%Za napoved bova v enem primeru vzela pričakovano vrednost, za dejanski čas pa simulirane podatke, poskusila bova tudi obratno. 
 Na simuliranih podatkih bova uporabila napisane algoritme iz prvega dela naloge in naredila analizo razultatov.
 \end{document}
-
-
 
 

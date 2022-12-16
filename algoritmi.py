@@ -13,7 +13,6 @@ def FCFS(opravila):
 
     return sum(cakanje)
 
-
 opravila1 = [(1, 0, 1), (2, 0, 2), (3, 2, 4), (4, 3, 5), (5, 7, 1)]
 
 cakanje1 = FCFS(opravila1)
