@@ -30,7 +30,7 @@ Napovedi časov trajanja procesov se lahko določi z dodajanjem šumov pravim vr
 Algoritmi, ki se uporabljajo za razvrščanje procesov so naslednji:
 \begin{itemize}
   \item FCFS (First Come First Serve) je algoritem, ki izvaja procese po vrstnem redu njihovega prihoda.
-  \item SJF (Non-Preemptive Shortest Job First) je algoritem, pri katerem se za naslednjo izvedbo izbere proces z najkrajšim časom izvajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
+  \item SJF (Non-Preemptive Shortest Job First) je algoritem, pri katerem se za naslednjo izvedbo izbere proces z najkrajšim časom trajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
   \item PSJF (Preemptive Shortest Job First) je algoritem, pri katerem se proces z najkrajšim časom trajanja začne izvajati prvi. Ob prihodu novega procesa se le ta postavi v čakalno vrsto. Če pa pride proces s krajšim trajanjem od procesa, ki se trenutno izvaja, se trenutni proces ustavi in vrne v vrsto. Začne se izvajati proces s krajšim trajanjem.
   \item SRPT (Shortest remaining processing time) je algoritem podoben PSJF, vendar ta upošteva preostalo trajanje procesov.
 \end{itemize}
@@ -45,7 +45,7 @@ Vsi napisani algoritmi bodo vračali, koliko časa procesi čakajo v vrsti.\\
 V drugem delu naloge se bova ukvarjala s simulacijo podatkov. To bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
 Generirani podatki bodo morali vsebovati procese, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
 Za simulacijo podatkov bova uporabila normalno in beta porazdelitev. 
-Napovedi časa izvajanja procesov pa bova določila tako, da bova prvotnim podatkom s spreminjanjem variance dodala šum. \\
+Napovedi časa trajanja procesov pa bova določila tako, da bova prvotnim podatkom s spreminjanjem variance dodala šum. \\
 %Za napoved bova v enem primeru vzela pričakovano vrednost, za dejanski čas pa simulirane podatke, poskusila bova tudi obratno. 
 Na simuliranih podatkih bova uporabila napisane algoritme iz prvega dela naloge in naredila analizo razultatov.
 \end{document}
