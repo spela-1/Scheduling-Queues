@@ -68,6 +68,10 @@ cakanje_SJF = SJF(opravila_SJF)
 
 # zadeva zdej dela ampak definitivno ni najbolj učinkovita. mrbit bi blo boljš delat z indeksi...?
 
+
+
+
+
 #Shortest remaining procesing time
 def SRPT(opravila):
 # vzame množico opravil in izračuna čas čakanja
@@ -76,16 +80,17 @@ def SRPT(opravila):
     cakanje = []
     vrsta = []
     t=opravila[0][1] #če se prvo opravilo začne po času 0
+    t1 = opravila[0][1] #
     i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
     dokončana = 0
+
+    while opravila[i][1]<=t:
+        vrsta.append(opravila[i])
+        i += 1
+        if i + 1  == len(opravila):
+              break
+
     while dokončana < len(opravila):
-
-        #vsa opravila, ki so prišla do časa t postavi v vrsto
-        while opravila[i][1]<=t:
-            vrsta.append(opravila[i])
-            if i < len(opravila):
-                i += 1
-
 
         vrsta = sorted(vrsta, key=lambda item: item[2])  #razvrsti po length
         
@@ -94,40 +99,50 @@ def SRPT(opravila):
         if i < len(opravila):
             naslednje = opravila[i]
         else:
-            naslednje = (p, 100000000 , 0)       # smislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
-
+            naslednje = ["p", 100000000 , 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
 
 
 
         if naslednje[1]< trenutno[2] + t:   #če bo naslednje opravilo prej prišel preden se bo trenutno zaključilo
 
-            if opravila[i][2]<trenutno[2]:    #če je dolžina krajša od trenutnega
+            if naslednje[2]<trenutno[2]:    #če je dolžina krajša od trenutnega
+                vrsta.remove(trenutno)
+                t = naslednje[1]            #čas se spremeni
                 trenutno[2] = trenutno[2]-(t-t1)  #shranimo preostali čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala 
                 vrsta.append(trenutno)          #in trenutno gre nazaj v vrsto
+                vrsta.append(naslednje)
+                i += 1
+                vrsta = sorted(vrsta, key=lambda item: item[2])
                 t1 = t                          #shrani se čas kdaj se je začelo to opravilo izvajati
-                t = opravila[i+1][1] + 1           #čas se spremeni
+                
                 
             else:
-                vrsta.append(opravila[i+1])
+                vrsta.append(naslednje)
+                i += 1
                 vrsta = sorted(vrsta, key=lambda item: item[2])
+                t1 = t  
+                t = naslednje[1]
+                trenutno[2] = trenutno[2]-(t-t1)
                 
 
         else:                                       # SICER se trenutno opravilo zaključi
             dokončana += 1
-            cas_cakanja = t - trenutno[1]
+            cas_cakanja = t1 - trenutno[1]
             cakanje.append(cas_cakanja)
             t = t + trenutno[2]
+            t1 = t
             vrsta.remove(trenutno)
 
 
     return cakanje
             
 
-opravila_SRPT = [('p1', 0, 1), ('p2', 0, 2), ('p3', 2, 4), ('p4', 3, 5), ('p5', 7, 1)]
+opravila_SRPT = [['p1', 0, 1], ['p2', 0, 2], ['p3', 2, 4], ['p4', 3, 5], ['p5', 7, 1]]
 
 cakanje_SRPT = SRPT(opravila_SRPT)     
 
 
 #popraviti je treba:
-# * v 84 vrstici narediti tako, da ko je i > len(opravila) potem se naj zanka ne izvaja več
-# * preveriti je treba če i-ji sicer štimajo in če t štima
+
+# fajn bi blo še preveriti če t in t1 štimata tudi pri drugih podatkih,
+# npr tako da pride več opravil v pripravljeno vrsto med izvajanjem enega opravila
