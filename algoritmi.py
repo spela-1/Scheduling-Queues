@@ -84,7 +84,7 @@ cakanje_SJF = SJF(opravila_SJF)
 #Shortest remaining procesing time
 def SRPT(opravila):
 # vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = [id, arrival, length]
+# opravila je list opravil, opravilo = [id, arrival, length, length] = [id, arrival, remaining procesing time, length]
     opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
     cakanje = []
     vrsta = []
@@ -108,7 +108,7 @@ def SRPT(opravila):
         if i < len(opravila):
             naslednje = opravila[i]
         else:
-            naslednje = ["p", 100000000 , 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
+            naslednje = ["p", 100000000 , 0, 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
 
 
 
@@ -136,23 +136,36 @@ def SRPT(opravila):
 
         else:                                       # SICER se trenutno opravilo zaključi
             dokončana += 1
-            cas_cakanja = t1 - trenutno[1]
-            cakanje.append(cas_cakanja)
             t = t + trenutno[2]
             t1 = t
+            cas_cakanja = t - trenutno[1] - trenutno[3]
+            cakanje.append(cas_cakanja)   
             vrsta.remove(trenutno)
 
 
     return cakanje
             
 
-opravila_SRPT1 = [['p1', 0, 1], ['p2', 0, 2], ['p3', 2, 4], ['p4', 3, 5], ['p5', 7, 1]]
-opravila_SRPT2 = [['p1', 0, 5], ['p2', 1, 1], ['p3', 2, 4]]
-opravila_SRPT3 = [['p1', 0, 1], ['p2', 0, 2], ['p3', 2, 4], ['p4', 3, 5], ['p5', 7, 1]]
-opravila_SRPT4 = [['p1', 0, 1], ['p2', 0, 2], ['p3', 2, 4], ['p4', 3, 5], ['p5', 7, 1]]
+#opravila_SRPT1 = [['p1', 0, 1], ['p2', 0, 2], ['p3', 2, 4], ['p4', 3, 5], ['p5', 7, 1]]
+#opravila_SRPT2 = [['p1', 0, 5], ['p2', 1, 1], ['p3', 2, 4]]
+opravila_SRPT3 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4", 0,3, 3], ["5", 4,4, 4]]
+#opravila_SRPT4 = [["1", 0, 8],["2", 1, 4], ["3", 2, 2], ["4", 3, 1],["5", 4, 3], ["5", 5, 2]]
+opravila_SRPT5 = [["1", 0, 7,7], ["2", 1, 3, 3],["3", 3, 4, 4]]
 
-cakanje_SRPT1 = SRPT(opravila_SRPT1)  
-cakanje_SRPT2 = SRPT(opravila_SRPT2)     
+
+
+#cakanje_SRPT1 = SRPT(opravila_SRPT1)  
+#cakanje_SRPT2 = SRPT(opravila_SRPT2)     
+cakanje_SRPT3 = SRPT(opravila_SRPT3)  
+#cakanje_SRPT4 = SRPT(opravila_SRPT4)
+cakanje_SRPT5 = SRPT(opravila_SRPT5) #pravilen odgovor 8
+
+print("srpt", cakanje_SRPT3)
+print(sum(cakanje_SRPT3))
+
+
+print("srpt5", cakanje_SRPT5)
+print(sum(cakanje_SRPT5))
 
 
 #popraviti je treba:
@@ -216,22 +229,24 @@ def PSJF(opravila):
 
         else:                                       # SICER se trenutno opravilo zaključi
             dokončana += 1
-            cas_cakanja = t1 - trenutno[1]
-            cakanje.append(cas_cakanja)
             t = t + trenutno[3]
             t1 = t
+            cas_cakanja = t - trenutno[1] - trenutno[2]
+            cakanje.append(cas_cakanja)   
             vrsta.remove(trenutno)
 
 
-    return cakanje
+    return sum(cakanje)
 
-print(cakanje)
+
             
 
 opravila_PSJF = [['p1', 0, 1, 1], ['p2', 0, 2, 2], ['p3', 2, 4, 4], ['p4', 3, 5, 5] , ['p5', 7, 1, 1]]
 
 cakanje_PSJF = PSJF(opravila_PSJF)  
 
-opravila_PSJF2 = [["1", 2, 6],["2", 5, 2], ["3", 1, 8], ["4",0,3],["5", 4, 4]]
+opravila_PSJF2 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4",0, 3, 3], ["5", 4, 4, 4]]
 
 cakanje_PSJF2 = PSJF(opravila_PSJF2)
+
+print("p", cakanje_PSJF2)
