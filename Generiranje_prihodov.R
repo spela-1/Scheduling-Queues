@@ -24,13 +24,10 @@ casi_prihodov = function(E, Var, n, velikost) {
 
 #Komentar: upanje normalne je 0, in varianca je 0.5, doloceno po obcutku, potrebno dodatnega premisleka in komentarja
 
-# druga opcija je da generiram nakljucne vrednosti na intervalu z enakomerno zvezno porazdelitvijo, mogoce je to tudi profesor mislil s tem da lahko tam dolocamo min/max
 
 a = casi_prihodov(0.5,0.1,100,10)
 
 summary(a)
 
-
-#runif(n, min = 0, max = velikost), problem te je da se nabira na sredini
 
 # generira tudi dolzine prihodov 0
