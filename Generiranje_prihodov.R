@@ -44,7 +44,7 @@ b = casi_prihodov(0.5,0.1,10,10, 0.1)
 generiranje = function(k) {
   i = 1
   while (i < k) {
-  a = casi_prihodov(0.5,0.1,10,10, 0.01)
+  a = casi_prihodov(0.5,0.1,10,10, 0.1)
   b = rbind(b, a)
   i = i +1
   }
