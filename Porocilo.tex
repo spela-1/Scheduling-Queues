@@ -1,0 +1,71 @@
+\documentclass[a4paper, pt14]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[slovene]{babel}
+\usepackage{lmodern}
+%\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+
+\begin{document}
+
+\title{%
+Scheduling-Queues\\
+  \large Finančni praktikum}
+\author{Špela Bernardič, Ioann Stanković}
+\date{10. \ 1. \ 2023}
+
+\maketitle
+
+
+
+
+
+
+\section{Navodilo naloge}
+Naloga se ukvarja z algoritmi 'Scheduling-Queues', ki uporabljajo podatke napovedane s strojnim učenjem.
+Potrebno je napisati simulacijo procesov, ki uporabi napovedane čase trajanja procesov in nato narediti analizo časa čakanja procesov.
+Preveriti je potrebno, kako različene porazdelitve trajanja procesov in kvaliteta napovedi vplivata na povprečen čas čakanja v vrsti.
+Napovedi časov trajanja procesov se lahko določi z dodajanjem šumov pravim vrednostim, lahko pa se uporabi naučen model.
+
+
+\section{Opis problema}
+
+S problemom razvrščanja opravil v vrsti se srečamo na različnih področjih. Za opravila nevemo nujno njihove dolžino trajanja, velikokrat pa jo laho ocenimo oziroma napovemo. 
+Zato je poleg optimalnosti algoritmov, ki za razvrščanje uporabljajo dejanske čase trajanja opravila, smiselno analizirati tudi, primere, ko se uporabljajo napovedani časi trajanja opravila.
+Opazovati je torej treba, povprečen čas čakanja opravila v vrsti. Želimo, da je ta čim krajši.
+
+\section{Potek dela}
+\subsection{Algoritmi razvrščanja procesov}
+
+Za reševanje problema razvrščanja procesov v vrsti se uporabljaj različni algoritmi. V nalogi sva uporabila naslednje osnovne algoritme:
+\begin{itemize}
+  \item FCFS (First Come First Serve) je algoritem, ki izvaja procese po vrstnem redu njihovega prihoda.
+  \item SJF (Non-Preemptive Shortest Job First) je algoritem, pri katerem se za naslednjo izvedbo izbere proces z najkrajšim časom trajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
+  \item PSJF (Preemptive Shortest Job First) je algoritem, pri katerem se proces z najkrajšim časom trajanja začne izvajati prvi. Ob prihodu novega procesa se le ta postavi v čakalno vrsto. Če pa pride proces s krajšim trajanjem od procesa, ki se trenutno izvaja, se trenutni proces ustavi in vrne v vrsto. Začne se izvajati proces s krajšim trajanjem.
+  \item SRPT (Shortest remaining processing time) je algoritem podoben PSJF, vendar ta upošteva preostanke trajanj procesov.
+\end{itemize}
+
+Poleg osnovnih algoritmov sva napisala še variacje z napovedmi:
+
+\begin{itemize}
+  \item SPJF (Non-Preemptive Shortest Predicted Job First) za naslednjo izvedbo izbere proces z najkrajšim \textbf{napovedanim} časom trajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
+  \item PSPJF (Preemptive Shortest Predicted Job First) proces z najkrajšim \textbf{napovedanim} časom trajanja se začne izvajati prvi. Ob prihodu novega procesa se le ta postavi v čakalno vrsto. Če pride proces s krajšim \textbf{napovedanim} trajanjem od procesa, ki se trenutno izvaja, se trenutni proces ustavi in vrne v vrsto. Začne se izvajati proces s krajšim \textbf{napovedanim} trajanjem.
+  \item SPRPT (Shortest Predicted remaining processing time) je algoritem podoben PSJF, vendar ta upošteva preostanek \textbf{napovedanega} trajanj procesov.
+\end{itemize}
+
+
+
+\subsection{Generiranje podatkov in predikcije}
+
+V drugem delu naloge se bova ukvarjala s simulacijo podatkov. To bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
+Generirani podatki bodo morali vsebovati procese, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
+Za simulacijo podatkov bova uporabila normalno in beta porazdelitev. 
+Napovedi časa trajanja procesov pa bova določila tako, da bova prvotnim podatkom s spreminjanjem variance dodala šum. \\
+%Za napoved bova v enem primeru vzela pričakovano vrednost, za dejanski čas pa simulirane podatke, poskusila bova tudi obratno.
+Na simuliranih podatkih bova uporabila napisane algoritme iz prvega dela naloge in naredila analizo razultatov.
+
+\section{Analiza}
+\end{document}

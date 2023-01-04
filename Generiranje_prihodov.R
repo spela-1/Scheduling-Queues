@@ -17,7 +17,7 @@ casi_prihodov = function(E, Var, n, velikost) {
   p = round(p)
   a = bind_cols(p,b)
   colnames(a) = c("cas_prihoda", "dolzina_opravila")
-  a <- a %>% arrange((cas_prihoda))
+  a <- a  %>% arrange((cas_prihoda))
   return(a)
 }
 #==========================================================================================================================================================================
@@ -29,5 +29,6 @@ a = casi_prihodov(0.5,0.1,100,10)
 
 summary(a)
 
+write.csv(a, "podatki.csv")
 
 # generira tudi dolzine prihodov 0

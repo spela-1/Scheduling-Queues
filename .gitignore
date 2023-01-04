@@ -6,3 +6,6 @@
 *.synctex
 *.log
 *.synctex.gz
+*.toc
+*.Rhistory
+*.RData

@@ -20,16 +20,30 @@ from algoritmi import PSPJF
 
 
 
-def izvedi_alg(tabela, stevilo_preizkusov=10):
+def izvedi_algoritme(tabela, stevilo_preizkusov=10):
     
     tabel_v_list = tabela.values.tolist()
     razbitje = np.array_split(np.array(tabel_v_list), stevilo_preizkusov)
 
-    vsota = 0
+    vsota_FCFS = 0
+    vsota_SJF = 0
+    vsota_SRPT = 0
+    vsota_PSJF = 0
+    vsota_SPJF = 0
+    vsota_SPRPT = 0
+    vsota_PSPJF = 0
     n = len(razbitje)
-    for i in razbitje:
-        vsota += FCFS(i)
-    return (vsota/n)
 
-print(izvedi_alg(tabela))
+    for i in razbitje:
+        vsota_FCFS += FCFS(i)
+        vsota_SJF += SJF(i)
+        vsota_SRPT += SRPT(i)
+        vsota_PSJF += PSJF(i)
+        vsota_SPJF += SPJF(i)
+        vsota_SPRPT += SPRPT(i)
+        vsota_PSPJF += PSPJF(i)
+
+    return [vsota_FCFS/n, vsota_SJF/n, vsota_SRPT/n, vsota_PSJF/n, vsota_SPJF/n, vsota_SPRPT/n, vsota_PSPJF/n]
+
+print(izvedi_algoritme(tabela))
 
