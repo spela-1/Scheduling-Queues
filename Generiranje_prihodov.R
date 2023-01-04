@@ -9,15 +9,6 @@ library(dplyr)
 casi_prihodov = function(E, Var, n, velikost, shum) {
   alpha = E*(E*(1-E)/Var - 1)
   beta = (1 - E)*(E*(1-E)/Var - 1)
-<<<<<<< HEAD
-  b = rbeta(n, alpha, beta)*velikost
-  b = round(b)
-  p = abs(rnorm(n,0, 0.5))*n
-  p = round(p)
-  a = bind_cols(p,b)
-  colnames(a) = c("cas_prihoda", "dolzina_opravila")
-  a <- a  %>% arrange((cas_prihoda))
-=======
   dolzina_opravila = rbeta(n, alpha, beta)*velikost
   dolzina_opravila = round(dolzina_opravila)
   cas_prihoda = abs(rnorm(n,0, 0.5))*n
@@ -32,7 +23,6 @@ casi_prihodov = function(E, Var, n, velikost, shum) {
   a = pmax(a,0)
   #a = as_tibble(a)
   #a <- a %>% arrange((cas_prihoda))
->>>>>>> 9d41a9cb2cd5d23edbdd031734c1cf7a89280f97
   return(a)
 }
 #==========================================================================================================================================================================
