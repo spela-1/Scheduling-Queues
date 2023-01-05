@@ -27,8 +27,8 @@ casi_prihodov_beta = function(E, Var, n, velikost, shum) {
 #==========================================================================================================================================================================
 #OPOMBA: dejanska pricakovana vrednost je E*velikost (varianca tudi ni pravilna, sam varianca ni linearna)
 
-#KOMENTAR: as_tibble zna biti popolnoma nepotreben (in vse nadalje) , ce hocs to banano uredit po velikosti uporabs a = a[order(a[,1]),]
-# funkcijski parametri:
+
+# PARAMETRI:
 # E = upanje/velikost
 # Var = varianca....nelinearna
 # n = stevilo prihodov
@@ -38,7 +38,7 @@ casi_prihodov_beta = function(E, Var, n, velikost, shum) {
 #Komentar: upanje normalne je 0, in varianca je 0.5, doloceno po obcutku, potrebno dodatnega premisleka in komentarja
 
 
-#Komentar: generira tudi dolzine prihodov 0, ta problem lahko odpravimo preprosto da dodamo +1
+#Komentar: generira tudi dolzine prihodov 0, ta problem lahko odpravimo preprosto da dodamo +1, (lahko se pojavi sum dolzine 0)
 #Komentar: moti me da sum lahko poveca najin maksimalen burst time
 #==========================================================================================================================================================================
 
