@@ -6,8 +6,8 @@ library(dplyr)
 casi_prihodov_normalne = function(E, Var, n, shum) {
   dolzina_opravila = round(abs(rnorm(n,E, Var)))
   
-  cas_prihoda = abs(rnorm(n,0, 0.5))*n  # tuki dam absolutno vrednost, je mar to dovoljeno?, potem dobimo nekaj drugega vendarle
-  cas_prihoda = round(cas_prihoda)      # tuki dodajam se sum
+  cas_prihoda = round(abs(rnorm(n,0, 0.5))*n)  # tuki dam absolutno vrednost, je mar to dovoljeno?, potem dobimo nekaj drugega vendarle
+       
   
   noise = round(rnorm(n,E, shum) - E) # lahko tudi pogledamo koliko je znasal posamezen sum
   
