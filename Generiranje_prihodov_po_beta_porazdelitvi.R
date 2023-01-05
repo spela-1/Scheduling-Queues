@@ -9,7 +9,7 @@ library(dplyr)
 casi_prihodov_beta = function(E, Var, n, velikost, shum) {
   alpha = E*(E*(1-E)/Var - 1)
   beta = (1 - E)*(E*(1-E)/Var - 1)
-  dolzina_opravila = rbeta(n, alpha, beta)*velikost
+  dolzina_opravila = rbeta(n, alpha, beta)*velikost   # round v eno vrstico
   dolzina_opravila = round(dolzina_opravila)
   cas_prihoda = abs(rnorm(n,0, 0.5))*n
   cas_prihoda = round(cas_prihoda)      # tuki dodajam se sum
