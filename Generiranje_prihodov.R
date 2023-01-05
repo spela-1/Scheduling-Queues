@@ -52,9 +52,9 @@ generiranje = function(k) {
 }
 
 # k = stevilo zdruzitev tabel
-c = generiranje(1000)
+c = generiranje(100)
 # ce bos probavala drugacne podatke jih rabs pol se sprement notr v funkciji generiranje ( casi_prihodov(  ) ).
 #==================================================================================================================================================
 
-write.csv(a, "podatki.csv")
+write.csv(c, "podatki.csv")
 

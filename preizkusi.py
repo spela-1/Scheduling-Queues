@@ -20,7 +20,7 @@ from algoritmi import PSPJF
 
 
 
-def izvedi_algoritme(tabela, stevilo_preizkusov=10):
+def izvedi_algoritme(tabela, stevilo_preizkusov=100):
     
     tabel_v_list = tabela.values.tolist()
     razbitje = np.array_split(np.array(tabel_v_list), stevilo_preizkusov)
@@ -47,3 +47,12 @@ def izvedi_algoritme(tabela, stevilo_preizkusov=10):
 
 print(izvedi_algoritme(tabela))
 
+def na_tabelah(tabele):
+#funkcija na vsaki tabeli v seznamu tabel izvede funkcijo "izvedi_algoritem", 
+#torej za vsako tabelo dobimo seznam povprečnega časa čakanja
+    seznam = []
+    for niz_tabele in tabele:
+        tabela = pd.read_csv(niz_tabele)
+        seznam.append(izvedi_algoritme(tabela))
+
+    return seznam

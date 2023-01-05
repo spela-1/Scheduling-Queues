@@ -44,6 +44,8 @@ def SJF(opravila):
             while opravila[0][1]<= t :
                 vrsta.append(opravila[0])
                 opravila.remove(opravila[0])
+                if len(opravila) == 0:
+                    break
 
         vrsta = sorted(vrsta, key=lambda item: item[2])  #razvrsti po length
         
@@ -55,6 +57,8 @@ def SJF(opravila):
                 cas_cakanja = t-opravilo1[1]
                 cakanje.append(cas_cakanja)
                 t = opravilo1[2] + t  #čas po končanem opravilu
+                if len(vrsta) == 0:
+                    break
         else:
             while len(vrsta) !=0:
                 opravilo1 = vrsta[0]
@@ -84,10 +88,24 @@ def SRPT(opravila):
     while opravila[i][1]<=t:
         vrsta.append(opravila[i])
         i += 1
-        if i + 1  == len(opravila):
+        if i == len(opravila):
               break
 
     while dokončana < len(opravila):
+
+        if i  < len(opravila):
+            if len(vrsta) == 0 and opravila[i][1] > t:
+                t = opravila[i][1]
+                t1 = opravila[i][1]
+
+
+        if i + 1 < len(opravila):
+            while opravila[i][1]<=t:
+                vrsta.append(opravila[i])
+                i += 1
+                if i == len(opravila):
+                    break
+
 
         vrsta = sorted(vrsta, key=lambda item: item[3])  #razvrsti po remaining procesing time
         
@@ -150,10 +168,23 @@ def PSJF(opravila):
     while opravila[i][1]<=t:
         vrsta.append(opravila[i])
         i += 1
-        if i + 1  == len(opravila):
+        if i == len(opravila):
               break
 
     while dokončana < len(opravila):
+
+        if i  < len(opravila):
+            if len(vrsta) == 0 and opravila[i][1] > t: 
+                t = opravila[i][1]
+                t1 = opravila[i][1]
+
+        if i + 1 < len(opravila):
+            while opravila[i][1]<=t:
+                vrsta.append(opravila[i])
+                i += 1
+                if i == len(opravila):
+                    break
+
 
         vrsta = sorted(vrsta, key=lambda item: item[2])  #razvrsti po length
         
@@ -227,6 +258,8 @@ def SPJF(opravila):
             while opravila[0][1]<= t :
                 vrsta.append(opravila[0])
                 opravila.remove(opravila[0])
+                if len(opravila) == 0:
+                    break
 
         vrsta = sorted(vrsta, key=lambda item: item[3])  #razvrsti po predicted length
         
@@ -238,6 +271,8 @@ def SPJF(opravila):
                 cas_cakanja = t-opravilo1[1]
                 cakanje.append(cas_cakanja)
                 t = opravilo1[2] + t  #čas po končanem opravilu
+                if len(vrsta) == 0:
+                    break
         else:
             while len(vrsta) !=0:
                 opravilo1 = vrsta[0]
@@ -265,10 +300,23 @@ def SPRPT(opravila):
     while opravila[i][1]<=t:
         vrsta.append(opravila[i])
         i += 1
-        if i + 1  == len(opravila):
+        if i == len(opravila):
               break
 
     while dokončana < len(opravila):
+
+        if i  < len(opravila):
+            if len(vrsta) == 0 and opravila[i][1] > t:
+                t = opravila[i][1]
+                t1 = opravila[i][1]
+
+
+        if i + 1 < len(opravila):
+            while opravila[i][1]<=t:
+                vrsta.append(opravila[i])
+                i += 1
+                if i == len(opravila):
+                    break
 
         vrsta = sorted(vrsta, key=lambda item: item[4])  #razvrsti po predicted remaining procesing time
         
@@ -334,10 +382,23 @@ def PSPJF(opravila):
     while opravila[i][1]<=t:
         vrsta.append(opravila[i])
         i += 1
-        if i + 1  == len(opravila):
+        if i  == len(opravila):
               break
 
     while dokončana < len(opravila):
+
+        if i  < len(opravila):
+            if len(vrsta) == 0 and opravila[i][1] > t:
+                t = opravila[i][1]
+                t1 = opravila[i][1]
+
+
+        if i  < len(opravila):
+            while opravila[i][1]<=t:
+                vrsta.append(opravila[i])
+                i += 1
+                if i  == len(opravila):
+                    break
 
         vrsta = sorted(vrsta, key=lambda item: item[4])  #razvrsti po predicted length
         
