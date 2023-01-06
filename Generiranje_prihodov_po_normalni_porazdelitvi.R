@@ -2,8 +2,6 @@
 library(dplyr)
 
 
-set.seed(0)
-
 #============================================================================ CAS PRIHODA - NORMALNA PORAZDELITEV in STEVILO PRIHODOV - NORMALNA PORAZDELITEV  ==================================================================================
 casi_prihodov_normalne = function(E, Var, n, shum, rt) {
   dolzina_opravila = abs(rnorm(n,E, Var))
@@ -19,20 +17,21 @@ casi_prihodov_normalne = function(E, Var, n, shum, rt) {
   return(a)
 }
 #==========================================================================================================================================================================
+mylist <- as.list(replicate(100, 5))
 
 #====================================================PODATKI: Var = 5.01 , n ==============================================================================================
 
-n_5 = casi_prihodov_normalne( 5, 5, 5, 0.01, 0.25)
+n_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.01, rt = 0.25)
 
-n_10 = casi_prihodov_normalne( 5, 5, 10, 0.01, 0.25)
+n_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.01, rt = 0.25)
 
-n_50 = casi_prihodov_normalne( 5, 5, 50, 0.01, 0.25)
+n_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.01, rt = 0.25)
 
-n_100 = casi_prihodov_normalne( 5, 5, 100, 0.01, 0.25)
+n_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.01, rt = 0.25)
 
-n_500 = casi_prihodov_normalne( 5, 5, 500, 0.01, 0.25)
+n_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.01, rt = 0.25)
 
-n_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.01, 0.25)
+n_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.01, rt = 0.25)
 
 #=================================================================================================================================================================
 
@@ -50,17 +49,17 @@ write.csv(n_1000, "n1000.csv")
 
 #====================================================PODATKI: Var = 5.02 , m ==================================================================
 
-m_5 = casi_prihodov_normalne( 5, 5, 5, 0.02, 0.25)
+m_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.02, rt = 0.25)
 
-m_10 = casi_prihodov_normalne( 5, 5, 10, 0.02, 0.25)
+m_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.02, rt = 0.25)
 
-m_50 = casi_prihodov_normalne( 5, 5, 50, 0.02, 0.25)
+m_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.02, rt = 0.25)
 
-m_100 = casi_prihodov_normalne( 5, 5, 100, 0.02, 0.25)
+m_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.02, rt = 0.25)
 
-m_500 = casi_prihodov_normalne( 5, 5, 500, 0.02, 0.25)
+m_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.02, rt = 0.25)
 
-m_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.02, 0.25)
+m_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.02, rt = 0.25)
 
 #=================================================================================================================================================================
 
@@ -78,17 +77,17 @@ write.csv(m_1000, "m1000.csv")
 
 #====================================================PODATKI: Var = 5.04 , k ==================================================================
 
-k_5 = casi_prihodov_normalne( 5, 5, 5, 0.04, 0.25)
+k_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.04, rt = 0.25)
 
-k_10 = casi_prihodov_normalne( 5, 5, 10, 0.04, 0.25)
+k_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.04, rt = 0.25)
 
-k_50 = casi_prihodov_normalne( 5, 5, 50, 0.04, 0.25)
+k_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.04, rt = 0.25)
 
-k_100 = casi_prihodov_normalne( 5, 5, 100, 0.04, 0.25)
+k_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.04, rt = 0.25)
 
-k_500 = casi_prihodov_normalne( 5, 5, 500, 0.04, 0.25)
+k_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.04, rt = 0.25)
 
-k_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.04, 0.25)
+k_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.04, rt = 0.25)
 
 #=================================================================================================================================================================
 
@@ -106,17 +105,17 @@ write.csv(k_1000, "k1000.csv")
 
 #====================================================PODATKI: Var = 5.06 , j ==================================================================
 
-j_5 = casi_prihodov_normalne( 5, 5, 5, 0.06, 0.25)
+j_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.06, rt = 0.25)
 
-j_10 = casi_prihodov_normalne( 5, 5, 10, 0.06, 0.25)
+j_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.06, rt = 0.25)
 
-j_50 = casi_prihodov_normalne( 5, 5, 50, 0.06, 0.25)
+j_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.06, rt = 0.25)
 
-j_100 = casi_prihodov_normalne( 5, 5, 100, 0.06, 0.25)
+j_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.06, rt = 0.25)
 
-j_500 = casi_prihodov_normalne( 5, 5, 500, 0.06, 0.25)
+j_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.06, rt = 0.25)
 
-j_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.06, 0.25)
+j_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.06, rt = 0.25)
 
 #=================================================================================================================================================================
 
@@ -134,17 +133,17 @@ write.csv(j_1000, "j1000.csv")
 
 #====================================================PODATKI: Var = 5.08 , t ==================================================================
 
-t_5 = casi_prihodov_normalne( 5, 5, 5, 0.08, 0.25)
+t_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.08, rt = 0.25)
 
-t_10 = casi_prihodov_normalne( 5, 5, 10, 0.08, 0.25)
+t_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.08, rt = 0.25)
 
-t_50 = casi_prihodov_normalne( 5, 5, 50, 0.08, 0.25)
+t_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.08, rt = 0.25)
 
-t_100 = casi_prihodov_normalne( 5, 5, 100, 0.08, 0.25)
+t_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.08, rt = 0.25)
 
-t_500 = casi_prihodov_normalne( 5, 5, 500, 0.08, 0.25)
+t_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.08, rt = 0.25)
 
-t_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.08, 0.25)
+t_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.08, rt = 0.25)
 
 #=================================================================================================================================================================
 
@@ -162,17 +161,17 @@ write.csv(t_1000, "t1000.csv")
 
 #====================================================PODATKI: Var = 5.1 , l ==================================================================
 
-l_5 = casi_prihodov_normalne( 5, 5, 5, 0.1, 0.25)
+l_5 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 5, shum = 0.1, rt = 0.25)
 
-l_10 = casi_prihodov_normalne( 5, 5, 10, 0.1, 0.25)
+l_10 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 10, shum = 0.1, rt = 0.25)
 
-l_50 = casi_prihodov_normalne( 5, 5, 50, 0.1, 0.25)
+l_50 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 50, shum = 0.1, rt = 0.25)
 
-l_100 = casi_prihodov_normalne( 5, 5, 100, 0.1, 0.25)
+l_100 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 100, shum = 0.1, rt = 0.25)
 
-l_500 = casi_prihodov_normalne( 5, 5, 500, 0.1, 0.25)
+l_500 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 500, shum = 0.1, rt = 0.25)
 
-l_1000 = casi_prihodov_normalne( 5, 5, 1000, 0.1, 0.25)
+l_1000 = lapply(mylist,casi_prihodov_normalne,Var=5, n= 1000, shum = 0.1, rt = 0.25)
 
 #=================================================================================================================================================================
 
