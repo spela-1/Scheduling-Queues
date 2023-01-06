@@ -40,7 +40,7 @@ b = casi_prihodov_beta(0.5,0.1,10,10, 0.01,0.25)
 
 #========================================================================================================= raje bi s tem delal ker se mi zdi bolj pregledno
 mylist <- list(a=0.5,b=0.5,c=0.5) # neznam ta seznam razsirit
-a = lapply(mylist,casi_prihodov,Var=0.1, n= 10, velikost = 10, shum = 0.01) # vrze seznam teh podatkov
+a = lapply(mylist,casi_prihodov,Var=0.1, n= 10, velikost = 10, shum = 0.01, rt = 0.25) # vrze seznam teh podatkov
 #========================================================================================================= vendar neznam
 
 
