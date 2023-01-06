@@ -15,13 +15,13 @@ print(tabela)
 #tabela.shape
 
 
-from algoritmi import FCFS
-from algoritmi import SJF
-from algoritmi import SRPT
-from algoritmi import PSJF
-from algoritmi import SPJF
-from algoritmi import SPRPT
-from algoritmi import PSPJF
+from alg_prof import FCFS
+from alg_prof import SJF
+from alg_prof import SRPT
+from alg_prof import PSJF
+from alg_prof import SPJF
+from alg_prof import SPRPT
+from alg_prof import PSPJF
 
 
 
@@ -40,13 +40,14 @@ def izvedi_algoritme(tabela, stevilo_preizkusov=100):
     n=stevilo_preizkusov
 
     for i in razbitje:
-        vsota_PSPJF += PSPJF(i)
         vsota_FCFS += FCFS(i)
         vsota_SJF += SJF(i)
         vsota_SRPT += SRPT(i)
         vsota_PSJF += PSJF(i)
-        vsota_SPJF += SPJF(i)
+
+        vsota_SPJF += SPJF(i) 
         vsota_SPRPT += SPRPT(i)
+        vsota_PSPJF += PSPJF(i)
 
     return [vsota_FCFS/n, vsota_SJF/n, vsota_SRPT/n, vsota_PSJF/n, vsota_SPJF/n, vsota_SPRPT/n, vsota_PSPJF/n]
 

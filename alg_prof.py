@@ -1,4 +1,14 @@
 from dataclasses import dataclass, field
+from heapq import heappop, heappush
+
+
+#class Opravilo():
+
+#    def __init__(self, id, arrival, length):
+#        self.id = id
+#        self.arrival = arrival
+#        self.length = length
+#        #self.predicted = predicted
 
 @dataclass(order=True)
 class Opravilo:
@@ -13,14 +23,14 @@ class Opravilo:
         assert self.arrival >= 0 and self.length > 0 and self.predicted > 0 # preverimo, da so podatki smiselni
 
 
-from heapq import heappop, heappush
 
 
 #First Come First Serve    
 def FCFS(seznam):
 # vzame množico opravil in izračuna povprečen čas čakanja
-# opravila je list opravil, opravilo = (id, arrival, length)
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+# opravila je list opravil, opravilo = (id, arrival,length, length, predicted)
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival)
     cakanje = 0
     t=0
     dogodki = []
@@ -30,7 +40,7 @@ def FCFS(seznam):
         if t < opravilo.arrival:
             t = opravilo.arrival
 
-        cas_cakanja = t-opravilo[1]
+        cas_cakanja = t-opravilo.arrival
         cakanje += cas_cakanja
         t += opravilo.length  
         dogodki.append((t, opravilo, cas_cakanja)) # zabeležimo dokončanje opravila
@@ -40,7 +50,8 @@ def FCFS(seznam):
 
 # Shortest Job First
 def SJF(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -73,12 +84,53 @@ def SJF(seznam):
 
         heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
-#Preemptive Shortest Job First
+#Shortest remaining procesing time
+def SRPT(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
+    vrsta = []
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
+
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
+
+            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
+
+            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
+            if preostanek > 0 and preostanek > naslednje.length:            
+                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
+                t = naslednje.arrival # premaknemo se na čas prekinitve
+                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+
+            else: # izvajanje se bo končalo
+                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+                heappop(vrsta) # odstranimo opravilo iz vrste
+                t += cas # premaknemo se na čas konca izvajanja
+                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
+
+    else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
+
+    heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
+
+
+
+
+#Preemptive shortest job first
 def PSJF(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -110,49 +162,15 @@ def PSJF(seznam):
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
     heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
-#Preemptive Shortest Remaining Job First
-def PSRJF(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
-    dogodki = []
-    vrsta = []
-    t = 0
-    cakanje = 0
-    for naslednje in opravila:
-        while vrsta: # ponavljamo, dokler vrsta ni prazna
+#PREDICTED
 
-            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
-            if prekinitev <= 0:
-                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
-
-            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
-            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
-
-            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
-        if preostanek > 0 and preostanek > naslednje.length:            
-                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
-                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
-                t = naslednje.arrival # premaknemo se na čas prekinitve
-                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
-
-        else: # izvajanje se bo končalo
-                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
-                heappop(vrsta) # odstranimo opravilo iz vrste
-                t += cas # premaknemo se na čas konca izvajanja
-                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
-
-    else: # zanke nismo prekinili z break
-            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
-
-    heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
-
-
-# Shortest Predicted Job First
-def SJF(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+#Shortest Predicted Job First
+def SPJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -185,14 +203,14 @@ def SJF(seznam):
 
         heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil    
+    
 
 
-
-
-#Preemptive Shortest Predicted Job First
-def PSPJF(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+#Shortest Predicted Remaining Procesing Time
+def SPRPT(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -225,14 +243,13 @@ def PSPJF(seznam):
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
         heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
-    
-    
-    
-#Shortest Predicted Remaining Procesing Time
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
-def SPRPT(seznam):
-    opravila = sorted(Opravilo(*t) for t in seznam) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+
+#Preemptive Shortest Predicted job first
+def PSPJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -264,4 +281,4 @@ def SPRPT(seznam):
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
         heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
-    return cakanje, dogodki # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
