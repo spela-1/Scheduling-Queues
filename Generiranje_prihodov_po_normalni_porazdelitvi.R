@@ -2,6 +2,8 @@
 library(dplyr)
 
 
+set.seed(0)
+
 #============================================================================ CAS PRIHODA - NORMALNA PORAZDELITEV in STEVILO PRIHODOV - NORMALNA PORAZDELITEV  ==================================================================================
 casi_prihodov_normalne = function(E, Var, n, shum, rt) {
   dolzina_opravila = abs(rnorm(n,E, Var))
