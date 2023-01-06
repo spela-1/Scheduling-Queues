@@ -25,7 +25,7 @@ from alg_prof import PSPJF
 
 
 
-def izvedi_algoritme(tabela, stevilo_preizkusov=100):
+def izvedi_algoritme(tabela, stevilo_preizkusov=1):
     
     tabel_v_list = tabela.values.tolist()
     razbitje = np.array_split(np.array(tabel_v_list), stevilo_preizkusov)
@@ -51,14 +51,28 @@ def izvedi_algoritme(tabela, stevilo_preizkusov=100):
 
     return [vsota_FCFS/n, vsota_SJF/n, vsota_SRPT/n, vsota_PSJF/n, vsota_SPJF/n, vsota_SPRPT/n, vsota_PSPJF/n]
 
-print(izvedi_algoritme(tabela, 100))
+print(izvedi_algoritme(tabela, 10))
 
-def na_tabelah(tabele):
+def na_tabelah(tabele, k=10):
 #funkcija na vsaki tabeli v seznamu tabel izvede funkcijo "izvedi_algoritem", 
 #torej za vsako tabelo dobimo seznam povprečnega časa čakanja
+    if k != 10:
+        st_opravil = [5, 10, 50, 100, 500, 1000]
+    else:
+        st_opravil = [k,k,k,k,k,k]
+
     seznam = []
+    i = 0
     for niz_tabele in tabele:
         tabela = pd.read_csv(niz_tabele)
-        seznam.append(izvedi_algoritme(tabela))
+        seznam.append(izvedi_algoritme(tabela, st_opravil[i]))
+        i += 1
+    
+    df = pd.DataFrame(seznam, columns=["FCFS", "SJF", "SRPT", "PSJF", "SPJF", "SPRPT", "PSPJF"])
+    if k == 10:
+        df.to_csv('spreminja_sum.csv', index=False)
+
+    else:
+        df.to_csv('spreminja_n.csv', index=False)
 
     return seznam

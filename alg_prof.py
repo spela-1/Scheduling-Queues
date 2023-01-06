@@ -2,20 +2,20 @@ from dataclasses import dataclass, field
 from heapq import heappop, heappush
 
 
-#class Opravilo():
+class Opravilo():
 
-#    def __init__(self, id, arrival, length):
-#        self.id = id
-#        self.arrival = arrival
-#        self.length = length
-#        #self.predicted = predicted
+    def __init__(self, id, arrival, length, predicted):
+        self.id = id
+        self.arrival = arrival
+        self.length = length
+        self.predicted = predicted
 
-@dataclass(order=True)
-class Opravilo:
-    id: int=field(compare=False)
-    arrival: float
-    length: float
-    predicted: float=field(default=None)
+#@dataclass(order=True)
+#class Opravilo:
+#    id: int=field(compare=False)
+#    arrival: float
+#    length: float
+#    predicted: float=field(default=None)
 
     def __post_init__(self): 
         if self.predicted is None: # če nimamo napovedi, naj bo enaka dolžini
@@ -51,7 +51,7 @@ def FCFS(seznam):
 # Shortest Job First
 def SJF(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'),float('inf') )] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -90,7 +90,7 @@ def SJF(seznam):
 #Shortest remaining procesing time
 def SRPT(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -118,10 +118,10 @@ def SRPT(seznam):
                 t += cas # premaknemo se na čas konca izvajanja
                 cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-    else: # zanke nismo prekinili z break
+        else: # zanke nismo prekinili z break
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-    heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
     return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
@@ -130,7 +130,7 @@ def SRPT(seznam):
 #Preemptive shortest job first
 def PSJF(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -161,7 +161,7 @@ def PSJF(seznam):
         else: # zanke nismo prekinili z break
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-    heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
     return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
@@ -170,7 +170,7 @@ def PSJF(seznam):
 #Shortest Predicted Job First
 def SPJF(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -210,7 +210,7 @@ def SPJF(seznam):
 #Shortest Predicted Remaining Procesing Time
 def SPRPT(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0
@@ -249,7 +249,7 @@ def SPRPT(seznam):
 #Preemptive Shortest Predicted job first
 def PSPJF(seznam):
     opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
-    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
     t = 0

@@ -19,7 +19,7 @@ cakanje_SJF = SJF(opravila_SJF)
 print("SJF", cakanje_SJF)
 
 
-from algoritmi import SRPT
+from alg_prof import SRPT
 
 opravila_SRPT1 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4", 0,3, 3], ["5", 4, 4, 4]]
 opravila_SRPT2 = [["1", 0, 7,7], ["2", 1, 3, 3],["3", 3, 4, 4]]
@@ -70,11 +70,11 @@ print("SPRPT2", cakanje_SPRPT2) #pravilen odgovor 8/3
 print("SPRPT3", cakanje_SPRPT3)
 
 
-from algoritmi import PSPJF
+from alg_prof import PSPJF
 
-opravila_PSPJF1 = [['p1', 0, 1, 1, 1], ['p2', 0, 2, 2, 2], ['p3', 2, 4, 4, 4], ['p4', 3, 5, 5, 5] , ['p5', 7, 1, 1, 1]]
-opravila_PSPJF2 = [["1", 2, 6, 6, 6], ["2", 5, 2, 2, 2], ["3", 1, 8, 8, 8], ["4",0, 3, 3, 3], ["5", 4, 4, 4, 4]]
-opravila_PSPJF3 = [["1", 2, 6, 6, 10], ["2", 5, 2, 2, 1], ["3", 1, 8, 8, 2], ["4",0, 3, 3, 7], ["5", 4, 4, 4, 4]]
+opravila_PSPJF1 = [['p1', 0,  1, 1], ['p2', 0, 2, 2], ['p3', 2, 4, 4], ['p4', 3, 5, 5] , ['p5', 7, 1, 1]]
+opravila_PSPJF2 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4",0, 3, 3], ["5", 4, 4, 4]]
+opravila_PSPJF3 = [["1", 2, 6, 10], ["2", 5, 2, 1], ["3", 1, 8, 2], ["4",0, 3, 7], ["5", 4, 4, 4]]
 
 cakanje_PSPJF1 = PSPJF(opravila_PSPJF1)  
 cakanje_PSPJF2 = PSPJF(opravila_PSPJF2)

@@ -40,7 +40,7 @@ b = casi_prihodov_beta(0.5,0.1,10,10, 0.01,0.25)
 
 #========================================================================================================= raje bi s tem delal ker se mi zdi bolj pregledno
 mylist <- list(a=0.5,b=0.5,c=0.5) # neznam ta seznam razsirit
-a = lapply(mylist,casi_prihodov,Var=0.1, n= 10, velikost = 10, shum = 0.01, rt = 0.25) # vrze seznam teh podatkov
+a = lapply(mylist,casi_prihodov_beta,Var=0.1, n= 10, velikost = 10, shum = 0.01, rt = 0.25) # vrze seznam teh podatkov
 #========================================================================================================= vendar neznam
 
 
@@ -58,8 +58,8 @@ generiranje = function(k) {
 }
 #==============================================================================================================================================================
 # k = stevilo zdruzitev tabel
-c = generiranje(1000)
+c = generiranje(10)
 #==============================================================================================================================================================
 # osebna zelja: mogoce vizualno predstavitev vseh prihodov, pa tudi osebna radovednost kako tako stvar narest (ker to ni histogram), aha poglej v dn mislm da vem kaj hoces
 
-
+write.csv(c, "podatki.csv")
