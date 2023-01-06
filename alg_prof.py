@@ -2,20 +2,20 @@ from dataclasses import dataclass, field
 from heapq import heappop, heappush
 
 
-class Opravilo():
+#class Opravilo():
 
-    def __init__(self, id, arrival, length, predicted):
-        self.id = id
-        self.arrival = arrival
-        self.length = length
-        self.predicted = predicted
+#    def __init__(self, id, arrival, length, predicted):
+#        self.id = id
+#        self.arrival = arrival
+#        self.length = length
+#        self.predicted = predicted
 
-#@dataclass(order=True)
-#class Opravilo:
-#    id: int=field(compare=False)
-#    arrival: float
-#    length: float
-#    predicted: float=field(default=None)
+@dataclass(order=True)
+class Opravilo:
+    id: int=field(compare=False)
+    arrival: float
+    length: float
+    predicted: float=field(default=None)
 
     def __post_init__(self): 
         if self.predicted is None: # če nimamo napovedi, naj bo enaka dolžini

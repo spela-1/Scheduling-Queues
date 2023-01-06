@@ -3,8 +3,8 @@ import pandas as pd
 import numpy as np
 
 
-tabela = pd.read_csv("podatki.csv")
-print(tabela)
+#tabela = pd.read_csv("podatki.csv")
+#print(tabela)
 
 #tabel_v_list = tabela.values.tolist()
 #print(tabel_v_list)
@@ -25,7 +25,7 @@ from alg_prof import PSPJF
 
 
 
-def izvedi_algoritme(tabela, stevilo_preizkusov=1):
+def izvedi_algoritme(tabela, stevilo_preizkusov=100):
     
     tabel_v_list = tabela.values.tolist()
     razbitje = np.array_split(np.array(tabel_v_list), stevilo_preizkusov)
@@ -51,28 +51,31 @@ def izvedi_algoritme(tabela, stevilo_preizkusov=1):
 
     return [vsota_FCFS/n, vsota_SJF/n, vsota_SRPT/n, vsota_PSJF/n, vsota_SPJF/n, vsota_SPRPT/n, vsota_PSPJF/n]
 
-print(izvedi_algoritme(tabela, 10))
 
-def na_tabelah(tabele, k=10):
+def na_tabelah(tabele, niz_detoteke):
 #funkcija na vsaki tabeli v seznamu tabel izvede funkcijo "izvedi_algoritem", 
 #torej za vsako tabelo dobimo seznam povprečnega časa čakanja
-    if k != 10:
-        st_opravil = [5, 10, 50, 100, 500, 1000]
-    else:
-        st_opravil = [k,k,k,k,k,k]
-
     seznam = []
     i = 0
     for niz_tabele in tabele:
-        tabela = pd.read_csv(niz_tabele)
-        seznam.append(izvedi_algoritme(tabela, st_opravil[i]))
+        tabela = pd.read_csv(niz_tabele, header=0)
+        seznam.append(izvedi_algoritme(tabela))
         i += 1
     
     df = pd.DataFrame(seznam, columns=["FCFS", "SJF", "SRPT", "PSJF", "SPJF", "SPRPT", "PSPJF"])
-    if k == 10:
-        df.to_csv('spreminja_sum.csv', index=False)
+    df.to_csv(niz_detoteke, index=False)
 
-    else:
-        df.to_csv('spreminja_n.csv', index=False)
 
-    return seznam
+
+
+tabele_beta_n = ["bn5.csv", "bn10.csv", "bn50.csv", "bn100.csv", "bn500.csv", "bn1000.csv"]
+tabele_beta_v = ["bv1.csv", "bv08.csv", "bv06.csv", "bv04.csv", "bv02.csv", "bv01.csv"]
+
+na_tabelah(tabele_beta_n, "beta_n")
+na_tabelah(tabele_beta_v, "beta_v")
+
+tabele_norm_n = ["nn5.csv", "nn10.csv", "nn50.csv", "nn100.csv", "nn500.csv", "nn1000.csv"]
+tabele_norm_v = ["nv1.csv", "nv08.csv", "nv06.csv", "nv04.csv", "nv02.csv", "nv01.csv"]
+
+na_tabelah(tabele_norm_n, "normalna_n")
+na_tabelah(tabele_norm_v, "normalna_v")
