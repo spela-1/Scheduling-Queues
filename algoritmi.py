@@ -85,12 +85,6 @@ def SRPT(opravila):
     dokončana = 0
     n = len(opravila)
 
-    while opravila[i][1]<=t:
-        vrsta.append(opravila[i])
-        i += 1
-        if i == len(opravila):
-              break
-
     while dokončana < len(opravila):
 
         if i  < len(opravila):
@@ -99,7 +93,7 @@ def SRPT(opravila):
                 t1 = opravila[i][1]
 
 
-        if i + 1 < len(opravila):
+        if i  < len(opravila):
             while opravila[i][1]<=t:
                 vrsta.append(opravila[i])
                 i += 1
@@ -165,12 +159,6 @@ def PSJF(opravila):
     dokončana = 0
     n =len(opravila)
 
-    while opravila[i][1]<=t:
-        vrsta.append(opravila[i])
-        i += 1
-        if i == len(opravila):
-              break
-
     while dokončana < len(opravila):
 
         if i  < len(opravila):
@@ -178,7 +166,7 @@ def PSJF(opravila):
                 t = opravila[i][1]
                 t1 = opravila[i][1]
 
-        if i + 1 < len(opravila):
+        if i < len(opravila):
             while opravila[i][1]<=t:
                 vrsta.append(opravila[i])
                 i += 1
@@ -297,12 +285,6 @@ def SPRPT(opravila):
     dokončana = 0
     n= len(opravila)
 
-    while opravila[i][1]<=t:
-        vrsta.append(opravila[i])
-        i += 1
-        if i == len(opravila):
-              break
-
     while dokončana < len(opravila):
 
         if i  < len(opravila):
@@ -311,7 +293,7 @@ def SPRPT(opravila):
                 t1 = opravila[i][1]
 
 
-        if i + 1 < len(opravila):
+        if i  < len(opravila):
             while opravila[i][1]<=t:
                 vrsta.append(opravila[i])
                 i += 1
@@ -378,12 +360,6 @@ def PSPJF(opravila):
     i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
     dokončana = 0
     n = len(opravila)
-
-    while opravila[i][1]<=t:
-        vrsta.append(opravila[i])
-        i += 1
-        if i  == len(opravila):
-              break
 
     while dokončana < len(opravila):
 
