@@ -9,3 +9,4 @@
 *.toc
 *.Rhistory
 *.RData
+.Rproj.user

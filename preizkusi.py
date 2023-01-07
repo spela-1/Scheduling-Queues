@@ -71,11 +71,11 @@ def na_tabelah(tabele, niz_detoteke):
 tabele_beta_n = ["bn5.csv", "bn10.csv", "bn50.csv", "bn100.csv", "bn500.csv", "bn1000.csv"]
 tabele_beta_v = ["bv1.csv", "bv08.csv", "bv06.csv", "bv04.csv", "bv02.csv", "bv01.csv"]
 
-na_tabelah(tabele_beta_n, "beta_n")
-na_tabelah(tabele_beta_v, "beta_v")
+na_tabelah(tabele_beta_n, "beta_n.csv")
+na_tabelah(tabele_beta_v, "beta_v.csv")
 
 tabele_norm_n = ["nn5.csv", "nn10.csv", "nn50.csv", "nn100.csv", "nn500.csv", "nn1000.csv"]
 tabele_norm_v = ["nv1.csv", "nv08.csv", "nv06.csv", "nv04.csv", "nv02.csv", "nv01.csv"]
 
-na_tabelah(tabele_norm_n, "normalna_n")
-na_tabelah(tabele_norm_v, "normalna_v")
+na_tabelah(tabele_norm_n, "normalna_n.csv")
+na_tabelah(tabele_norm_v, "normalna_v.csv")
