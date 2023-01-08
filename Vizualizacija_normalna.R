@@ -53,7 +53,7 @@ prihodi_norm = ggplot(n_24, aes(x=cas_prihoda, y=dolzina_opravila)) +
   geom_line(aes(y=z), colour="grey",linetype="dashed") +
   labs(title="Prihodi opravil (burst time)", 
        subtitle="n = 24, lambda = 0.25") +
-  xlim(0, 12)
+  xlim(0, 12) + ylim(0,19)
 #=========================================================================
 
 # Tabela za napoved
@@ -108,7 +108,7 @@ prihodi_norm_n4 = ggplot(n_4, aes(x=cas_prihoda, y=dolzina_opravila)) +
   geom_line(aes(y=z), colour="grey",linetype="dashed") +
   labs(title="Prihodi opravil (burst time)", 
        subtitle="E = 11.63321, Var = 9.237509, n = 4, lambda = 0.25") +
-  xlim(0, 12)
+  xlim(0, 12) + ylim(0,19)
 #=========================================================================
 
 Normalna_porazdelitev_v_24 = read.csv("normalna_v_24.csv")
