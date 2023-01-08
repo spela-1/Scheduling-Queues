@@ -28,7 +28,7 @@ casi_prihodov_beta = function(E, Var, n, burst_time, shum, rt) {
 generiranje_beta = function(E, Var, n, burst_time, shum, rt, k) {
   i = 1
   b = c(0,0,0)  
-  while (i < k) {
+  while (i < k + 1) {
     a = casi_prihodov_beta(E, Var, n, burst_time, shum, rt)
     b = rbind(b, a)
     i = i +1
@@ -44,12 +44,13 @@ generiranje_beta = function(E, Var, n, burst_time, shum, rt, k) {
 
 #sprememba n=5, 10, 50, 100, 500, 1000 (pri var=0.01)
 
-n_5 = generiranje_beta( 0.5, 0.01, 5, 10 , 0.01, 0.25, 100)
-n_10 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.01, 0.25, 100)
-n_50 = generiranje_beta( 0.5, 0.01, 50, 10 , 0.01, 0.25, 100)
-n_100 = generiranje_beta( 0.5, 0.01, 100, 10 , 0.01, 0.25, 100)
-n_500 = generiranje_beta( 0.5, 0.01, 500, 10 , 0.01, 0.25, 100)
-n_1000 = generiranje_beta( 0.5, 0.01, 1000, 10 , 0.01, 0.25, 100)
+n_5 = generiranje_beta( 0.5, 0.01, 4, 10 , 0.01, 0.25, 100)
+n_10 = generiranje_beta( 0.5, 0.01, 8, 10 , 0.01, 0.25, 100)
+n_50 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.01, 0.25, 100)
+n_100 = generiranje_beta( 0.5, 0.01, 16, 10 , 0.01, 0.25, 100)
+n_500 = generiranje_beta( 0.5, 0.01, 20, 10 , 0.01, 0.25, 100)
+n_1000 = generiranje_beta( 0.5, 0.01, 24, 10 , 0.01, 0.25, 100)
+
 
 write.csv(n_5, "bn5.csv")
 write.csv(n_10, "bn10.csv")
@@ -60,12 +61,12 @@ write.csv(n_1000, "bn1000.csv")
 
 #sprememba šum = 0.1, 0.08, 0.06, 0.04, 0.02, 0.01
 
-v_1 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.1, 0.25, 100)
-v_08 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.08, 0.25, 100)
-v_06 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.06, 0.25, 100)
-v_04 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.04, 0.25, 100)
-v_02 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.02, 0.25, 100)
-v_01 = generiranje_beta( 0.5, 0.01, 10, 10 , 0.01, 0.25, 100)
+v_1 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.1, 0.25, 100)
+v_08 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.08, 0.25, 100)
+v_06 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.06, 0.25, 100)
+v_04 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.04, 0.25, 100)
+v_02 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.02, 0.25, 100)
+v_01 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.01, 0.25, 100)
 
 write.csv(v_1, "bv1.csv")
 write.csv(v_08, "bv08.csv")
@@ -74,7 +75,7 @@ write.csv(v_04, "bv04.csv")
 write.csv(v_02, "bv02.csv")
 write.csv(v_01, "bv01.csv")
 #==========================================================================================================================================================================
-#OPOMBA: dejanska pricakovana vrednost je E*velikost (varianca tudi ni pravilna, sam varianca ni linearna)
+#OPOMBA: dejanska pricakovana vrednost je E*velikost 
 
 #KOMENTAR: as_tibble zna biti popolnoma nepotreben (in vse nadalje) , ce hocs to banano uredit po velikosti uporabs a = a[order(a[,1]),]
 # funkcijski parametri:
