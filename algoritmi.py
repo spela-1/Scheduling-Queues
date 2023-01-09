@@ -1,421 +1,269 @@
+from dataclasses import dataclass, field
+from heapq import heappop, heappush
+
+
+#class Opravilo():
+
+#    def __init__(self, id, arrival, length, predicted):
+#        self.id = id
+#        self.arrival = arrival
+#        self.length = length
+#        self.predicted = predicted
+
+@dataclass(order=True)
+class Opravilo:
+    id: int=field(compare=False)
+    arrival: float
+    length: float
+    predicted: float=field(default=None)
+
+    def __post_init__(self): 
+        if self.predicted is None: # če nimamo napovedi, naj bo enaka dolžini
+            self.predicted = self.length
+        assert self.arrival >= 0 and self.length > 0 and self.predicted > 0 # preverimo, da so podatki smiselni
+
+
+
+
 #First Come First Serve    
-def FCFS(opravila):
+def FCFS(seznam):
 # vzame množico opravil in izračuna povprečen čas čakanja
-# opravila je list opravil, opravilo = (id, arrival, length)
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    n=len(opravila)
+# opravila je list opravil, opravilo = (id, arrival,length, length, predicted)
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival)
+    cakanje = 0
+    t=0
+    dogodki = []
 
-    for i in range(len(opravila)):
+    for opravilo in opravila:
 
-        if t < opravila[i][1]:
-            t = opravila[i][1]
+        if t < opravilo.arrival:
+            t = opravilo.arrival
 
-        opravilo = opravila[i]
-        cas_cakanja = t-opravilo[1]
-        cakanje.append(cas_cakanja)
-        t = opravilo[2] + t  #čas po končanem opravilu
+        cas_cakanja = t-opravilo.arrival
+        cakanje += cas_cakanja
+        t += opravilo.length  
+        dogodki.append((t, opravilo, cas_cakanja)) # zabeležimo dokončanje opravila
 
-    return sum(cakanje)/n
+    return cakanje
 
 
 #Shortest job first
-def SJF(opravila):
-# vzame množico opravil in izračuna povprečen čas čakanja
-# opravila je list opravil, opravilo = (id, arrival, length)
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+def SJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    n = len(opravila)
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-    while len(opravila) > 0:
-        opravilo = opravila[0]
-        opravila.remove(opravilo)   
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        #če se na opravila čaka in se med tem ne izvaja nobeno drugo 
-        if opravilo[1] > t:
-            t = opravilo[1]
+            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
 
-        #vsa opravila, ki so prišla do časa t postavi v vrsto in izbriše iz opravil
-        vrsta.append(opravilo)
-        if len(opravila) !=0:
-            while opravila[0][1]<= t :
-                vrsta.append(opravila[0])
-                opravila.remove(opravila[0])
-                if len(opravila) == 0:
-                    break
+            # izvajanje se bo končalo
+            dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+            heappop(vrsta) # odstranimo opravilo iz vrste
+            t += cas # premaknemo se na čas konca izvajanja
+            cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-        vrsta = sorted(vrsta, key=lambda item: item[2])  #razvrsti po length
-        
-        #izvaja opravila v vrsti dokler ni t enak času prihoda naslednjega opravila ali pa je list opravil prazen
-        if len(opravila) !=0:
-            while t < opravila[0][1] :
-                opravilo1 = vrsta[0]
-                vrsta.remove(opravilo1)
-                cas_cakanja = t-opravilo1[1]
-                cakanje.append(cas_cakanja)
-                t = opravilo1[2] + t  #čas po končanem opravilu
-                if len(vrsta) == 0:
-                    break
-        else:
-            while len(vrsta) !=0:
-                opravilo1 = vrsta[0]
-                vrsta.remove(opravilo1)
-                cas_cakanja = t-opravilo1[1]
-                cakanje.append(cas_cakanja)
-                t = opravilo1[2] + t  #čas po končanem opravilu
+            if naslednje.arrival <= t:
+                break
 
-    return sum(cakanje)/n
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-# zadeva zdej dela ampak definitivno ni najbolj učinkovita. mrbit bi blo boljš delat z indeksi...?
+        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
 #Shortest remaining procesing time
-def SRPT(opravila):
-# vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = [id, arrival, length, length] = [id, arrival, length, remaining procesing time]
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+def SRPT(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    t1 = opravila[0][1] #
-    i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
-    dokončana = 0
-    n = len(opravila)
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-    while dokončana < len(opravila):
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        if i  < len(opravila):
-            if len(vrsta) == 0 and opravila[i][1] > t:
-                t = opravila[i][1]
-                t1 = opravila[i][1]
+            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
+            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
+            if preostanek > 0 and preostanek > naslednje.length:            
+                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
+                t = naslednje.arrival # premaknemo se na čas prekinitve
+                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
-        if i  < len(opravila):
-            while opravila[i][1]<=t:
-                vrsta.append(opravila[i])
-                i += 1
-                if i == len(opravila):
-                    break
+            else: # izvajanje se bo končalo
+                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+                heappop(vrsta) # odstranimo opravilo iz vrste
+                t += cas # premaknemo se na čas konca izvajanja
+                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-        vrsta = sorted(vrsta, key=lambda item: item[3])  #razvrsti po remaining procesing time
-        
-        trenutno = vrsta[0]
+        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
-        if i < len(opravila):
-            naslednje = opravila[i]
-        else:
-            naslednje = ["p", 100000000 , 0, 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[3] + t} vedno FALSE
-
-
-
-        if naslednje[1] < trenutno[3] + t:   #če bo naslednje opravilo prej prišel preden se bo trenutno zaključilo
-
-            if naslednje[3]<trenutno[3]:    #če je remaining procesing time naslenjega krajša od trenutnega
-                vrsta.remove(trenutno)
-                t = naslednje[1]            #čas se spremeni
-                trenutno[3] = trenutno[3]-(t-t1)  #shranimo preostali čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala 
-                vrsta.append(trenutno)          #in trenutno gre nazaj v vrsto
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[3])   #razvrsti po remaining procesing time
-                t1 = t                          #shrani se čas kdaj se je začelo to opravilo izvajati
-                
-                
-            else:                           #če je remaining procesing time naslednjega daljša od trenutnega 
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[3])
-                t1 = t  
-                t = naslednje[1]
-                trenutno[3] = trenutno[3]-(t-t1)
-                
-
-        else:                                       # SICER se trenutno opravilo zaključi
-            dokončana += 1
-            t = t + trenutno[3]
-            t1 = t
-            cas_cakanja = t - trenutno[1] - trenutno[2]
-            cakanje.append(cas_cakanja)   
-            vrsta.remove(trenutno)
-
-
-    return sum(cakanje)/n
-            
 
 #Preemptive shortest job first
-def PSJF(opravila):
-# vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = [id, arrival, length, length] = [id, arrival, length, remaining procesing time]
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+def PSJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    t1 = opravila[0][1] #
-    i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
-    dokončana = 0
-    n =len(opravila)
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-    while dokončana < len(opravila):
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        if i  < len(opravila):
-            if len(vrsta) == 0 and opravila[i][1] > t: 
-                t = opravila[i][1]
-                t1 = opravila[i][1]
+            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
-        if i < len(opravila):
-            while opravila[i][1]<=t:
-                vrsta.append(opravila[i])
-                i += 1
-                if i == len(opravila):
-                    break
+            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
+            if preostanek > 0 and opravilo.length > naslednje.length:
+                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
+                t = naslednje.arrival # premaknemo se na čas prekinitve
+                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
+            else: # izvajanje se bo končalo
+                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+                heappop(vrsta) # odstranimo opravilo iz vrste
+                t += cas # premaknemo se na čas konca izvajanja
+                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-        vrsta = sorted(vrsta, key=lambda item: item[2])  #razvrsti po length
-        
-        trenutno = vrsta[0]
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-        if i < len(opravila):
-            naslednje = opravila[i]
-        else:
-            naslednje = ["p", 100000000 , 0, 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
-
-
-
-        if naslednje[1] < trenutno[3] + t:   #če bo naslednje opravilo prej prišel preden se bo trenutno zaključilo
-
-            if naslednje[2]<trenutno[2]:    #če je dolžina naslenjega krajša od trenutnega
-                vrsta.remove(trenutno)
-                t = naslednje[1]            #čas se spremeni
-                trenutno[3] = trenutno[3]-(t-t1)  #shranimo preostali čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala 
-                vrsta.append(trenutno)          #in trenutno gre nazaj v vrsto
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[2])   #razvrsti po length
-                t1 = t                          #shrani se čas kdaj se je začelo to opravilo izvajati
-                
-                
-            else:                           #če je dolžina naslednjega daljša od trenutnega 
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[2])
-                t1 = t  
-                t = naslednje[1]
-                trenutno[3] = trenutno[3]-(t-t1)
-                
-
-        else:                                       # SICER se trenutno opravilo zaključi
-            dokončana += 1
-            t = t + trenutno[3]
-            t1 = t
-            cas_cakanja = t - trenutno[1] - trenutno[2]
-            cakanje.append(cas_cakanja)   
-            vrsta.remove(trenutno)
+        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
-    return sum(cakanje)/n
+#PREDICTED
 
-
-
-# VARIACIJE Z NAPOVEDMI:    vse je treba še preveriti če delajo pravilno
-
-#Shortest Predicted Job First
-def SPJF(opravila):
-# vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = (id, arrival, length, predicted length)
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+#Shortest Predicted job first
+def SPJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    n= len(opravila)
-    
-    while len(opravila) > 0:
-        opravilo = opravila[0]
-        opravila.remove(opravilo)   
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-        #če se na opravila čaka in se med tem ne izvaja nobeno drugo 
-        if opravilo[1] > t:
-            t = opravilo[1]
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        #vsa opravila, ki so prišla do časa t postavi v vrsto in izbriše iz opravil
-        vrsta.append(opravilo)
-        if len(opravila) !=0:
-            while opravila[0][1]<= t :
-                vrsta.append(opravila[0])
-                opravila.remove(opravila[0])
-                if len(opravila) == 0:
-                    break
+            predvideno, cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
 
-        vrsta = sorted(vrsta, key=lambda item: item[3])  #razvrsti po predicted length
-        
-        #izvaja opravila v vrsti dokler ni t enak času prihoda naslednjega opravila ali pa je list opravil prazen
-        if len(opravila) !=0:
-            while t < opravila[0][1] :
-                opravilo1 = vrsta[0]
-                vrsta.remove(opravilo1)
-                cas_cakanja = t-opravilo1[1]
-                cakanje.append(cas_cakanja)
-                t = opravilo1[2] + t  #čas po končanem opravilu
-                if len(vrsta) == 0:
-                    break
-        else:
-            while len(vrsta) !=0:
-                opravilo1 = vrsta[0]
-                vrsta.remove(opravilo1)
-                cas_cakanja = t-opravilo1[1]
-                cakanje.append(cas_cakanja)
-                t = opravilo1[2] + t  #čas po končanem opravilu
+            # izvajanje se bo končalo
+            dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+            heappop(vrsta) # odstranimo opravilo iz vrste
+            t += cas # premaknemo se na čas konca izvajanja
+            cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-    return sum(cakanje)/n
+            if naslednje.arrival <= t:
+                break
+
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
+
+        heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
 #Shortest Predicted Remaining Procesing Time
-def SPRPT(opravila):
-# vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = [id, arrival, length, length, predicted length] = [id, arrival, length, remaining procesing time, predicted remaining length]
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+def SPRPT(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    t1 = opravila[0][1] #
-    i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
-    dokončana = 0
-    n= len(opravila)
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-    while dokončana < len(opravila):
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        if i  < len(opravila):
-            if len(vrsta) == 0 and opravila[i][1] > t:
-                t = opravila[i][1]
-                t1 = opravila[i][1]
+            predvideno, cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
+            predvideno = predvideno - prekinitev
 
+            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
+            if preostanek > 0 and predvideno > naslednje.predicted:
+                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                vrsta[0] = (predvideno, preostanek, opravilo) # popravimo preostali čas
+                t = naslednje.arrival # premaknemo se na čas prekinitve
+                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
-        if i  < len(opravila):
-            while opravila[i][1]<=t:
-                vrsta.append(opravila[i])
-                i += 1
-                if i == len(opravila):
-                    break
+            else: # izvajanje se bo končalo
+                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+                heappop(vrsta) # odstranimo opravilo iz vrste
+                t += cas # premaknemo se na čas konca izvajanja
+                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-        vrsta = sorted(vrsta, key=lambda item: item[4])  #razvrsti po predicted remaining procesing time
-        
-        trenutno = vrsta[0]
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-        if i < len(opravila):
-            naslednje = opravila[i]
-        else:
-            naslednje = ["p", 100000000 , 0, 0, 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[3] + t} vedno FALSE
-
-
-
-        if naslednje[1] < trenutno[3] + t:   #če bo naslednje opravilo prej prišel preden se bo trenutno zaključilo
-
-            if naslednje[4]<trenutno[4]:    #če je predicted remaining procesing time naslenjega krajša od trenutnega
-                vrsta.remove(trenutno)
-                t = naslednje[1]            #čas se spremeni
-                trenutno[3] = trenutno[3]-(t-t1)  #shranimo preostali čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala
-                trenutno[4] = trenutno[4]-(t-t1)  #shranimo preostali predicted čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala 
-                vrsta.append(trenutno)          #in trenutno gre nazaj v vrsto
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[4])   #razvrsti po predicted remaining procesing time
-                t1 = t                          #shrani se čas kdaj se je začelo to opravilo izvajati
-                
-                
-            else:                           #če je remaining procesing time naslednjega daljša od trenutnega 
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[4])
-                t1 = t  
-                t = naslednje[1]
-                trenutno[3] = trenutno[3]-(t-t1)
-                trenutno[4] = trenutno[4]-(t-t1)
-                
-
-        else:                                       # SICER se trenutno opravilo zaključi
-            dokončana += 1
-            t = t + trenutno[3]
-            t1 = t
-            cas_cakanja = t - trenutno[1] - trenutno[2]
-            cakanje.append(cas_cakanja)   
-            vrsta.remove(trenutno)
+        heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
-    return sum(cakanje)/n
-
-
-
-#Preemptive Shortest Predicted Job First
-def PSPJF(opravila):
-# vzame množico opravil in izračuna čas čakanja
-# opravila je list opravil, opravilo = [id, arrival, length, length, predicted length] = [id, arrival, length, remaining procesing time, predicted length]
-    opravila = sorted(opravila, key=lambda item: item[1])  #razvrsti po arrival
-    cakanje = []
+#Preemptive Shortest Predicted job first
+def PSPJF(seznam):
+    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
+    dogodki = []
     vrsta = []
-    t=opravila[0][1] #če se prvo opravilo začne po času 0
-    t1 = opravila[0][1] #
-    i=0 #indeks naslednjega opravila ki bo postavljen v vrsto:
-    dokončana = 0
-    n = len(opravila)
+    t = 0
+    cakanje = 0
+    for naslednje in opravila:
+        while vrsta: # ponavljamo, dokler vrsta ni prazna
 
-    while dokončana < len(opravila):
+            prekinitev = naslednje.arrival - t # čas do prihoda naslednjega opravila
+            if prekinitev <= 0:
+                break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-        if i  < len(opravila):
-            if len(vrsta) == 0 and opravila[i][1] > t:
-                t = opravila[i][1]
-                t1 = opravila[i][1]
+            predvideno, cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
+            # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
+            if preostanek > 0 and predvideno > naslednje.predicted:
+                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                vrsta[0] = (predvideno, preostanek, opravilo) # popravimo preostali čas
+                t = naslednje.arrival # premaknemo se na čas prekinitve
+                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
-        if i  < len(opravila):
-            while opravila[i][1]<=t:
-                vrsta.append(opravila[i])
-                i += 1
-                if i  == len(opravila):
-                    break
+            else: # izvajanje se bo končalo
+                dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
+                heappop(vrsta) # odstranimo opravilo iz vrste
+                t += cas # premaknemo se na čas konca izvajanja
+                cakanje += t - opravilo.length - opravilo.arrival # zabeležimo čakanje
 
-        vrsta = sorted(vrsta, key=lambda item: item[4])  #razvrsti po predicted length
-        
-        trenutno = vrsta[0]
+        else: # zanke nismo prekinili z break
+            t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-        if i < len(opravila):
-            naslednje = opravila[i]
-        else:
-            naslednje = ["p", 100000000 , 0, 0, 0]       # izmislimo si fiktivo opravilo tako, da bo {naslednje[1]< trenutno[2] + t} vedno ne res
-
-
-
-        if naslednje[1] < trenutno[3] + t:   #če bo naslednje opravilo prej prišel preden se bo trenutno zaključilo
-
-            if naslednje[4]<trenutno[4]:    #če je predicted dolžina naslenjega krajša od trenutnega
-                vrsta.remove(trenutno)
-                t = naslednje[1]            #čas se spremeni
-                trenutno[3] = trenutno[3]-(t-t1)  #shranimo preostali čas ki ga trenutno opravilo potrebuje, da bo končano t1 od začetka intervala 
-                vrsta.append(trenutno)          #in trenutno gre nazaj v vrsto
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[4])   #razvrsti po length
-                t1 = t                          #shrani se čas kdaj se je začelo to opravilo izvajati
-                
-                
-            else:                           #če je predicted dolžina naslednjega daljša od trenutnega 
-                vrsta.append(naslednje)
-                i += 1
-                vrsta = sorted(vrsta, key=lambda item: item[4])
-                t1 = t  
-                t = naslednje[1]
-                trenutno[3] = trenutno[3]-(t-t1)
-                
-
-        else:                                       # SICER se trenutno opravilo zaključi
-            dokončana += 1
-            t = t + trenutno[3]
-            t1 = t
-            cas_cakanja = t - trenutno[1] - trenutno[2]
-            cakanje.append(cas_cakanja)   
-            vrsta.remove(trenutno)
-
-
-    return sum(cakanje)/n
+        heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+    return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil

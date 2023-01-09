@@ -11,11 +11,11 @@ cakanje2 = FCFS(opravila2)
 cakanje1 = FCFS(opravila1)
 
 
-from algoritmi import SJF
+from alg_prof import SJF
 
-opravila_SJF = [('p1', 0, 1), ('p2', 0, 2), ('p3', 2, 4), ('p4', 3, 5), ('p5', 7, 1)]
+opravila_SJF = [('p1', 0, 10), ('p2', 3, 8), ('p3', 6, 9), ('p4', 10, 4)]
 
-cakanje_SJF = SJF(opravila_SJF)
+cakanje_SJF = SJF(opravila_SJF) #pravilen odgovor 27
 print("SJF", cakanje_SJF)
 
 
@@ -31,35 +31,35 @@ print("SPRT1", cakanje_SRPT1)
 print("SPRT2", cakanje_SRPT2) #pravilen odgovor 8/3 
 
 
-from algoritmi import PSJF
+from alg_prof import PSJF
 
-opravila_PSJF1 = [['p1', 0, 1, 1], ['p2', 0, 2, 2], ['p3', 2, 4, 4], ['p4', 3, 5, 5] , ['p5', 7, 1, 1]]
+opravila_PSJF1 = [('p1', 0, 10, 10), ('p2', 3, 8, 8), ('p3', 6, 9, 9), ('p4', 10, 4, 4)]
 opravila_PSJF2 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4",0, 3, 3], ["5", 4, 4, 4]]
 
 cakanje_PSJF1 = PSJF(opravila_PSJF1)  
 cakanje_PSJF2 = PSJF(opravila_PSJF2)
 
-print("PSJF1", cakanje_PSJF1)
+print("PSJF1", cakanje_PSJF1)   
 print("PSJF2", cakanje_PSJF2)
 
 
-from algoritmi import SPJF
+from alg_prof import SPJF
 
-opravila_SPJF = [('p1', 0, 1, 1), ('p2', 0, 2, 2), ('p3', 2, 4, 4), ('p4', 3, 5, 5), ('p5', 7, 1, 1)]
+opravila_SPJF = [('p1', 0, 10, 10), ('p2', 3, 8, 8), ('p3', 6, 9, 9), ('p4', 10, 4, 4)]
 opravila_SPJF1 = [('p1', 0, 1, 2), ('p2', 0, 2, 1), ('p3', 2, 4, 4), ('p4', 3, 5, 3), ('p5', 7, 1, 2)]
 
-cakanje_SPJF = SPJF(opravila_SPJF)
+cakanje_SPJF = SPJF(opravila_SPJF) #pravilen odgovor 27
 cakanje_SPJF1 = SPJF(opravila_SPJF1)
 
 print("SPJF", cakanje_SPJF)
 print("SPJF1", cakanje_SPJF1)
 
 
-from algoritmi import SPRPT
+from alg_prof import SPRPT
 
-opravila_SPRPT1 = [["1", 2, 6, 6, 6], ["2", 5, 2, 2, 2], ["3", 1, 8, 8, 8], ["4", 0, 3, 3, 3], ["5", 4, 4, 4, 4]]
-opravila_SPRPT2 = [["1", 0, 7, 7, 7], ["2", 1, 3, 3, 3],["3", 3, 4, 4, 4]]
-opravila_SPRPT3 = [["1", 0, 7, 7, 1], ["2", 1, 3, 3, 10],["3", 3, 4, 4, 4]]
+opravila_SPRPT1 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4", 0, 3, 3], ["5", 4, 4, 4]]
+opravila_SPRPT2 = [["1", 0, 7, 7], ["2", 1, 3, 3],["3", 3,  4, 4]]
+opravila_SPRPT3 = [["1", 0, 7, 1], ["2", 1, 3, 10],["3", 3, 4, 4]]
 
 cakanje_SPRPT1 = SPRPT(opravila_SPRPT1)  
 cakanje_SPRPT2 = SPRPT(opravila_SPRPT2)

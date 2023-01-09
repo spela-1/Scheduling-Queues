@@ -15,13 +15,13 @@ import numpy as np
 #tabela.shape
 
 
-from alg_prof import FCFS
-from alg_prof import SJF
-from alg_prof import SRPT
-from alg_prof import PSJF
-from alg_prof import SPJF
-from alg_prof import SPRPT
-from alg_prof import PSPJF
+from algoritmi import FCFS
+from algoritmi import SJF
+from algoritmi import SRPT
+from algoritmi import PSJF
+from algoritmi import SPJF
+from algoritmi import SPRPT
+from algoritmi import PSPJF
 
 
 
