@@ -134,13 +134,13 @@ def PSJF(seznam):
             if prekinitev <= 0:
                 break # če je naslednje opravilo že prišlo, prekinemo zanko, da ga dodamo v vrsto
 
-            cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
+            dolzina, cas, opravilo = vrsta[0] # pogledamo opravilo na začetku vrste
             preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
             # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
-            if preostanek > 0 and opravilo.length > naslednje.length:
+            if preostanek > 0 and dolzina > naslednje.length:
                 dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
-                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
+                vrsta[0] = (dolzina, preostanek, opravilo) # popravimo preostali čas
                 t = naslednje.arrival # premaknemo se na čas prekinitve
                 break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
@@ -153,7 +153,7 @@ def PSJF(seznam):
         else: # zanke nismo prekinili z break
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
 
-        heappush(vrsta, (naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
+        heappush(vrsta, (naslednje.length, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
     return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil
 
 
@@ -233,7 +233,7 @@ def SPRPT(seznam):
 
 #Preemptive Shortest Predicted job first
 def PSPJF(seznam):
-    opravila = (Opravilo(*t) for t in seznam)# zadnje, navidezno opravilo
+    opravila = (Opravilo(*t) for t in seznam)
     opravila = sorted(opravila, key=lambda item: item.arrival) + [Opravilo(None, float('inf'), float('inf'), float('inf'))] # zadnje, navidezno opravilo
     dogodki = []
     vrsta = []
@@ -264,6 +264,6 @@ def PSPJF(seznam):
 
         else: # zanke nismo prekinili z break
             t = naslednje.arrival # premaknemo se naprej do časa prihoda naslednjega opravila
-
+        
         heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) # dodamo opravilo z začetno prioriteto enako dolžini 
     return cakanje # bolj smiselno je, če vračata skupno čakanje, saj to ni odvisno le od števila opravil

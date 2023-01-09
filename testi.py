@@ -11,7 +11,7 @@ cakanje2 = FCFS(opravila2)
 cakanje1 = FCFS(opravila1)
 
 
-from alg_prof import SJF
+from algoritmi import SJF
 
 opravila_SJF = [('p1', 0, 10), ('p2', 3, 8), ('p3', 6, 9), ('p4', 10, 4)]
 
@@ -19,7 +19,7 @@ cakanje_SJF = SJF(opravila_SJF) #pravilen odgovor 27
 print("SJF", cakanje_SJF)
 
 
-from alg_prof import SRPT
+from algoritmi import SRPT
 
 opravila_SRPT1 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4", 0,3, 3], ["5", 4, 4, 4]]
 opravila_SRPT2 = [["1", 0, 7,7], ["2", 1, 3, 3],["3", 3, 4, 4]]
@@ -31,19 +31,19 @@ print("SPRT1", cakanje_SRPT1)
 print("SPRT2", cakanje_SRPT2) #pravilen odgovor 8/3 
 
 
-from alg_prof import PSJF
+from algoritmi import PSJF
 
-opravila_PSJF1 = [('p1', 0, 10, 10), ('p2', 3, 8, 8), ('p3', 6, 9, 9), ('p4', 10, 4, 4)]
+opravila_PSJF1 = [('p1', 2, 6, 6), ('p2', 5, 2, 2), ('p3', 1, 8, 8), ('p4', 0, 3, 3), ('p5', 4, 4, 4)]
 opravila_PSJF2 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4",0, 3, 3], ["5", 4, 4, 4]]
 
 cakanje_PSJF1 = PSJF(opravila_PSJF1)  
 cakanje_PSJF2 = PSJF(opravila_PSJF2)
 
-print("PSJF1", cakanje_PSJF1)   
+print("PSJF1", cakanje_PSJF1)   #23
 print("PSJF2", cakanje_PSJF2)
 
 
-from alg_prof import SPJF
+from algoritmi import SPJF
 
 opravila_SPJF = [('p1', 0, 10, 10), ('p2', 3, 8, 8), ('p3', 6, 9, 9), ('p4', 10, 4, 4)]
 opravila_SPJF1 = [('p1', 0, 1, 2), ('p2', 0, 2, 1), ('p3', 2, 4, 4), ('p4', 3, 5, 3), ('p5', 7, 1, 2)]
@@ -55,7 +55,7 @@ print("SPJF", cakanje_SPJF)
 print("SPJF1", cakanje_SPJF1)
 
 
-from alg_prof import SPRPT
+from algoritmi import SPRPT
 
 opravila_SPRPT1 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4", 0, 3, 3], ["5", 4, 4, 4]]
 opravila_SPRPT2 = [["1", 0, 7, 7], ["2", 1, 3, 3],["3", 3,  4, 4]]
@@ -70,16 +70,20 @@ print("SPRPT2", cakanje_SPRPT2) #pravilen odgovor 8/3
 print("SPRPT3", cakanje_SPRPT3)
 
 
-from alg_prof import PSPJF
+from algoritmi import PSPJF
 
 opravila_PSPJF1 = [['p1', 0,  1, 1], ['p2', 0, 2, 2], ['p3', 2, 4, 4], ['p4', 3, 5, 5] , ['p5', 7, 1, 1]]
 opravila_PSPJF2 = [["1", 2, 6, 6], ["2", 5, 2, 2], ["3", 1, 8, 8], ["4",0, 3, 3], ["5", 4, 4, 4]]
 opravila_PSPJF3 = [["1", 2, 6, 10], ["2", 5, 2, 1], ["3", 1, 8, 2], ["4",0, 3, 7], ["5", 4, 4, 4]]
+opravila_PSPJF4 = [['p1', 2, 6, 6], ['p2', 5, 2, 2], ['p3', 1, 8, 8], ['p4', 0, 3, 3], ['p5', 4, 4, 4]]
 
 cakanje_PSPJF1 = PSPJF(opravila_PSPJF1)  
 cakanje_PSPJF2 = PSPJF(opravila_PSPJF2)
 cakanje_PSPJF3 = PSPJF(opravila_PSPJF3)
+cakanje_PSPJF4 = PSPJF(opravila_PSPJF4)
+
 
 print("PSPJF1", cakanje_PSPJF1)
 print("PSPJF2", cakanje_PSPJF2)
 print("PSPJF3", cakanje_PSPJF3)
+print("PSPJF4", cakanje_PSPJF4) #23
