@@ -53,14 +53,20 @@ write.csv(n_100, "nn100.csv")
 write.csv(n_500, "nn500.csv")
 write.csv(n_1000, "nn1000.csv")
 
-#sprememba šum = 0.1, 0.08, 0.06, 0.04, 0.02, 0.01
+#sprememba šum = 0.1, 0.08, 0.06, 0.04, 0.02, 0.01, se cakanje
 
-v_1 = generiranje_normalna(  5, 5, 12 , 0.1, 0.25, 1000)
-v_08 = generiranje_normalna(  5, 5,  12 , 0.08, 0.25, 1000)
-v_06 = generiranje_normalna(  5, 5, 12 , 0.06, 0.25, 1000)
-v_04 = generiranje_normalna(  5, 5, 12 , 0.04, 0.25, 1000)
-v_02 = generiranje_normalna( 5, 5, 12 , 0.02, 0.25, 1000)
-v_01 = generiranje_normalna( 5, 5, 12, 0.01, 0.25, 1000)
+set.seed(0)
+v_1 = generiranje_normalna(  5, 5, 24 , 2.5, 0.25, 100)
+set.seed(0)
+v_08 = generiranje_normalna(  5, 5,  24 , 2, 0.25, 100)
+set.seed(0)
+v_06 = generiranje_normalna(  5, 5, 24 , 1.5, 0.25, 100)
+set.seed(0)
+v_04 = generiranje_normalna(  5, 5, 24 , 1, 0.25, 100)
+set.seed(0)
+v_02 = generiranje_normalna( 5, 5, 24 , 0.5, 0.25, 100)
+set.seed(0)
+v_01 = generiranje_normalna( 5, 5, 24, 0.01, 0.25, 100)
 
 write.csv(v_1, "nv1.csv")
 write.csv(v_08, "nv08.csv")
@@ -69,6 +75,26 @@ write.csv(v_04, "nv04.csv")
 write.csv(v_02, "nv02.csv")
 write.csv(v_01, "nv01.csv")
 
+# za n = 4, se cakanje
+set.seed(0)
+v_1 = generiranje_normalna(  5, 5, 4 , 2.5, 0.25, 100)
+set.seed(0)
+v_08 = generiranje_normalna(  5, 5,  4 , 2, 0.25, 100)
+set.seed(0)
+v_06 = generiranje_normalna(  5, 5, 4 , 1.5, 0.25, 100)
+set.seed(0)
+v_04 = generiranje_normalna(  5, 5, 4 , 1, 0.25, 100)
+set.seed(0)
+v_02 = generiranje_normalna( 5, 5, 4 , 0.5, 0.25, 100)
+set.seed(0)
+v_01 = generiranje_normalna( 5, 5, 4, 0.01, 0.25, 100)
+
+write.csv(v_1, "n4v1.csv")
+write.csv(v_08, "n4v08.csv")
+write.csv(v_06, "n4v06.csv")
+write.csv(v_04, "n4v04.csv")
+write.csv(v_02, "n4v02.csv")
+write.csv(v_01, "n4v01.csv")
 
 
 

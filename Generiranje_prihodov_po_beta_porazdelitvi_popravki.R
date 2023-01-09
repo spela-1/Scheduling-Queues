@@ -60,13 +60,19 @@ write.csv(n_500, "bn500.csv")
 write.csv(n_1000, "bn1000.csv")
 
 #sprememba šum = 0.1, 0.08, 0.06, 0.04, 0.02, 0.01
-
-v_1 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.1, 0.25, 100)
-v_08 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.08, 0.25, 100)
-v_06 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.06, 0.25, 100)
-v_04 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.04, 0.25, 100)
-v_02 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.02, 0.25, 100)
-v_01 = generiranje_beta( 0.5, 0.01, 12, 10 , 0.01, 0.25, 100)
+# zgeneriraj se cakanje
+set.seed(0)
+v_1 = generiranje_beta( 0.5, 0.01, 24, 10 , 2.5, 0.25, 100)
+set.seed(0)
+v_08 = generiranje_beta( 0.5, 0.01, 24, 10 , 2, 0.25, 100)
+set.seed(0)
+v_06 = generiranje_beta( 0.5, 0.01, 24, 10 , 1.5, 0.25, 100)
+set.seed(0)
+v_04 = generiranje_beta( 0.5, 0.01, 24, 10 , 1, 0.25, 100)
+set.seed(0)
+v_02 = generiranje_beta( 0.5, 0.01, 24, 10 , 0.5, 0.25, 100)
+set.seed(0)
+v_01 = generiranje_beta( 0.5, 0.01, 24, 10 , 0.01, 0.25, 100)
 
 write.csv(v_1, "bv1.csv")
 write.csv(v_08, "bv08.csv")
@@ -74,6 +80,27 @@ write.csv(v_06, "bv06.csv")
 write.csv(v_04, "bv04.csv")
 write.csv(v_02, "bv02.csv")
 write.csv(v_01, "bv01.csv")
+#===================================================ZA N = 4, se cakanje zgeneriraj
+set.seed(0)
+v_1 = generiranje_beta( 0.5, 0.01, 4, 10 , 2.5, 0.25, 100)
+set.seed(0)
+v_08 = generiranje_beta( 0.5, 0.01, 4, 10 , 2, 0.25, 100)
+set.seed(0)
+v_06 = generiranje_beta( 0.5, 0.01, 4, 10 , 1.5, 0.25, 100)
+set.seed(0)
+v_04 = generiranje_beta( 0.5, 0.01, 4, 10 , 1, 0.25, 100)
+set.seed(0)
+v_02 = generiranje_beta( 0.5, 0.01, 4, 10 , 0.5, 0.25, 100)
+set.seed(0)
+v_01 = generiranje_beta( 0.5, 0.01, 4, 10 , 0.01, 0.25, 100)
+
+write.csv(v_1, "b4v1.csv")
+write.csv(v_08, "b4v08.csv")
+write.csv(v_06, "b4v06.csv")
+write.csv(v_04, "b4v04.csv")
+write.csv(v_02, "b4v02.csv")
+write.csv(v_01, "b4v01.csv")
+
 #==========================================================================================================================================================================
 #OPOMBA: dejanska pricakovana vrednost je E*velikost 
 
@@ -91,6 +118,31 @@ write.csv(v_01, "bv01.csv")
 #Komentar: Burst time je najmanj 10^-7
 #Komentar: moti me da sum lahko poveca najin maksimalen burst time
 #==========================================================================================================================
+#Probamo za zelo majhno varianco
+set.seed(0)
+mn_4 = generiranje_beta( 0.5, 0.1, 4, 1 , 0.01, 0.25, 100)
+mn_8 = generiranje_beta( 0.5, 0.01, 8, 1 , 0.01, 0.25, 100)
+mn_12 = generiranje_beta( 0.5, 0.01, 12, 1 , 0.01, 0.25, 100)
+mn_16 = generiranje_beta( 0.5, 0.01, 16, 1 , 0.01, 0.25, 100)
+mn_20 = generiranje_beta( 0.5, 0.01, 20, 1 , 0.01, 0.25, 100)
+mn_24 = generiranje_beta( 0.5, 0.01, 24, 1 , 0.01, 0.25, 100)
+mn_28 = generiranje_beta( 0.5, 0.01, 28, 1 , 0.01, 0.25, 100)
+mn_32 = generiranje_beta( 0.5, 0.01, 32, 1 , 0.01, 0.25, 100)
+mn_36 = generiranje_beta( 0.5, 0.01, 36, 1 , 0.01, 0.25, 100)
+mn_40 = generiranje_beta( 0.5, 0.01, 40, 1 , 0.01, 0.25, 100)
+mn_44 = generiranje_beta( 0.5, 0.01, 44, 1 , 0.01, 0.25, 100)
+mn_48 = generiranje_beta( 0.5, 0.01, 48, 1 , 0.01, 0.25, 100)
 
-
+write.csv(mn_4, "mbn4.csv")
+write.csv(mn_8, "mbn8.csv")
+write.csv(mn_12, "mbn12.csv")
+write.csv(mn_16, "mbn16.csv")
+write.csv(mn_20, "mbn20.csv")
+write.csv(mn_24, "mbn24.csv")
+write.csv(mn_28, "mbn28.csv")
+write.csv(mn_32, "mbn32.csv")
+write.csv(mn_36, "mbn36.csv")
+write.csv(mn_40, "mbn40.csv")
+write.csv(mn_44, "mbn44.csv")
+write.csv(mn_48, "mbn48.csv")
 

@@ -5,7 +5,7 @@ library(ggplot2)
 library(tidyr)
 library(ggpubr)
 
-set.seed(0)
+#set.seed(0)
 #n_24 = casi_prihodov_normalne( 5, 5, 24, 0.01, 0.25)
 #n_24 = as_tibble(n_24)
 #write.csv(n_24, "n_24.csv")
@@ -71,7 +71,7 @@ cakanje_norm_predictions = ggplot(Tabela_predictions, aes(x=x, y = `Povprecno ca
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue"))
 #==================================================================================================================================================================
 
-Normalna_porazdelitev_v = read.csv("normalna_v.csv")
+Normalna_porazdelitev_v = read.csv("normalna_v_4.csv")
 Normalna_v = Normalna_porazdelitev_v[,5:7]
 Var = c(2.5, 2, 1.5 , 1 , 0.5 , 0.01)
 df_var = cbind(Var ,Normalna_v)
@@ -92,10 +92,6 @@ cakanje_varianca_n = ggplot(Tabela_var, aes(x=Var, y = `Povprecno cakanje`, col 
   geom_hline(yintercept=8.511992, linetype="dashed", color = "lightskyblue") +
   annotate("text", x=0, y=8.811992, label="SRPT", size = 2.7, color = "lightskyblue")
 #================================================================================================================================================================================
-# lahko zamenjam samo na grse fonte (r nima lepih fontov ki podpirajo sumnike)
-
-ggarrange(cakanje_norm,cakanje_norm_predictions, cakanje_varianca_n ,prihodi_norm_n4,cakanje_varianca_n_24,prihodi_norm,
-          ncol = 2, nrow = 3)
 
 #================================================================================== RISANJE PRIHODOV =================================
 prihodi_norm_n4 = ggplot(n_4, aes(x=cas_prihoda, y=dolzina_opravila)) + 
@@ -128,4 +124,8 @@ cakanje_varianca_n_24 = ggplot(Tabela_var_24, aes(x=Var, y = `Povprecno cakanje`
 #================================================================================================================================================================================
 
 # CE KDO ZNA PREUREDIT VRSTNI RED LEGENDE BI BLO KUL , JZ GREM JOKAT
+# lahko zamenjam samo na grse fonte (r nima lepih fontov ki podpirajo sumnike)
+
+ggarrange(cakanje_norm,cakanje_norm_predictions, cakanje_varianca_n ,prihodi_norm_n4,cakanje_varianca_n_24,prihodi_norm,
+          ncol = 2, nrow = 3)
 

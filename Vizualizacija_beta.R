@@ -7,10 +7,10 @@ library(tidyr)
 library(ggpubr)
 
 b_24 = read.csv("b_24.csv")
-set.seed(0)
+#set.seed(0)
 b_24 = casi_prihodov_beta( 0.5, 0.01, 24, 10 , 0.01, 0.25)
-b_24 = as_tibble(b_24)
-write.csv(b_24, "b_24.csv")
+#b_24 = as_tibble(b_24)
+#write.csv(b_24, "b_24.csv")
 
 
 Beta_porazdelitev_n = read.csv("beta_n.csv")
@@ -68,7 +68,7 @@ cakanje_beta_predictions = ggplot(Tabela_predictions, aes(x=x, y = `Povprecno ca
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue"))
 #==================================================================================================================================================================
 
-Beta_porazdelitev_v = read.csv("beta_v.csv")
+Beta_porazdelitev_v = read.csv("beta_v_4.csv")
 Beta_v = Beta_porazdelitev_v[,5:7]
 Var = c(2.5, 2, 1.5 , 1 , 0.5 , 0.01)
 df_var = cbind(Var ,Beta_v)
@@ -90,7 +90,7 @@ cakanje_varianca = ggplot(Tabela_var, aes(x=Var, y = `Povprecno cakanje`, col = 
   annotate("text", x=0, y=6, label="SRPT", size = 2.7, color = "lightskyblue")
 #================================================================================================================================================================================
 # lahko zamenjam samo na grse fonte (r nima lepih fontov ki podpirajo sumnike)
-Beta_porazdelitev_v_24 = read.csv("beta_vv_24.csv")
+Beta_porazdelitev_v_24 = read.csv("beta_v_24.csv")
 Beta_v_24 = Beta_porazdelitev_v_24[,5:7]
 Var = c(2.5, 2, 1.5 , 1 , 0.5 , 0.01)
 df_var_24 = cbind(Var ,Beta_v_24)
@@ -105,9 +105,11 @@ cakanje_varianca_24 = ggplot(Tabela_var_24, aes(x=Var, y = `Povprecno cakanje`, 
   geom_hline(yintercept=1138.931, linetype="dashed", color = "tomato3") +
   geom_hline(yintercept=1053.486, linetype="dashed", color = "lightskyblue")
 #================================================================================================================================================================================
-set.seed(0)
-b_4 = casi_prihodov_beta( 0.5, 0.01, 4, 10 , 0.01, 0.25)
-b_4 = as_tibble(b_4)
+#set.seed(0)
+#b_4 = casi_prihodov_beta( 0.5, 0.01, 4, 10 , 0.01, 0.25)
+#b_4 = as_tibble(b_4)
+#write.csv(b_4, "b_4.csv")
+b_4 = read.csv("b_4.csv")
 #================================================================================== RISANJE PRIHODOV 4 =================================
 prihodi_beta_4 = ggplot(b_4, aes(x=cas_prihoda, y=dolzina_opravila)) + 
   geom_point(size=0.5, color = "violetred4") + 
