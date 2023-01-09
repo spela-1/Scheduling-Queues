@@ -7,6 +7,7 @@
 %\usepackage{hyperref}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{graphicx}
 
 
 \begin{document}
@@ -59,13 +60,26 @@ Poleg osnovnih algoritmov sva napisala še variacje z napovedmi:
 
 
 \subsection{Generiranje podatkov in predikcije}
+Za algoritme je bilo potrebno zgenerirat podatke za \v case prihodov opravil, dol\v zine teh opravil, in \v sum na opravilih. Za generiranje podatkov sva uporabila programski jezik R. \v Case prihodov opravil sva zgenerirala z eksponentno porazdelitvijo s parametrom $\lambda = 0.25$, torej $N \sim exp(0.25) $. \v Sum sva dodala z normalno porazdelitvijo, $ Z \sim N(0,\sigma) $ , kjer sva izbrala $\sigma = 0.01$ in nato \v se pogledala kako se grafi obna\v sajo glede na spremembo $\sigma$. Da bi se izognila dolžinam opravil in \v sumu velikosti 0 sva za minimalno dol\v zino opravila vzela $10^{-7}$.
 
-V drugem delu naloge se bova ukvarjala s simulacijo podatkov. To bova naredila v programskem jeziku R, saj ta že vsebuje vgrajene funkcije za generiranje naključnih vrednosti.
-Generirani podatki bodo morali vsebovati procese, njihove čase prihoda in koliko časa se (predvidoma) izvajajo.
-Za simulacijo podatkov bova uporabila normalno in beta porazdelitev. 
-Napovedi časa trajanja procesov pa bova določila tako, da bova prvotnim podatkom s spreminjanjem variance dodala šum. \\
-%Za napoved bova v enem primeru vzela pričakovano vrednost, za dejanski čas pa simulirane podatke, poskusila bova tudi obratno.
-Na simuliranih podatkih bova uporabila napisane algoritme iz prvega dela naloge in naredila analizo razultatov.
+\subsubsection{Generiranje prihodov Beta porazdelitve}
+    Za dol\v zine opravil sva v enem primeru uporabila Beta porazdelitev skalirano za 10, torej $X \sim Beta(\alpha, \beta) \times 10 $, z $ E[x] = 5$ in $Var[x] = 1 $ potem $\alpha = \beta = 12$. Zanimalo naju je, tudi \v ce se oblika grafa spremeni ko izberemo majhne dol\v zine opravil, to sva pogledala samo za Beta porazdelitev, tukaj sva vzela $ E[X] = 0.5$, $Var[X] = 0.01 $ in  $Var[Z] = 0.01 $, torej $X \sim Beta(12,12)$.
+
+\subsubsection{Generiranje prihodov Normalne porazdelitve}
+  V drugem primeru sva uporabila Normalno porazdelitev $Y \sim |N(5,5)|$, vzela sva absolutno vrednost normalne porazdelitve, da bi se izognila negativnim vrednostim. DEJANSKA VREDNOST UPANJA IN VARIANCE. 
+
+
 
 \section{Analiza}
+\subsection{Analiza Beta porazdelitve}
+\includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi.pdf}
+\\Iz grafov lahko sklepamo, da \v cas povpre\v cnega \v cakanja nara\v s\v ca eksponentno glede na \v stevilo prihodov. Opazimo ve\v cje \v casovno odstopanje za algoritem FCFS, kar nas tudi ne presene\v ca, saj je ta algoritem \v ze za majhno \v stevilo prihodov relativno po\v casen. Mogo\v ce bolj presenetljiv rezultat je, da imamo zelo majhno odstopanje povpre\v cnega \v casa \v cakanja za algoritme z napovedmi, tudi \v ce pove\v camo varianco na 2.5, kar je relativno velik \v sum , ki znatno spremeni za\v cetne podatke. Iz grafov sklepava, da povpre\v cni \v cas \v cakanja nara\v s\v ca linearno s spremembo variance \v suma. Nisva pogledala obna\v sanje algoritmov za ve\v cje variance \v sumov, saj se nam to ni zdelo smiselno.\\
+\includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi_majhna.pdf}
+\\
+Tu so zelo presenetljivi rezultati, ki jih nerazumem
+
+\subsection{Analiza Normalne porazdelitve}
+
+\includegraphics[width=12.1cm,keepaspectratio]{Normalna_grafi.pdf}
+\\ Lahko sklepamo podobno kot pri prvi analizi, vendar opazimo \v se ve\v cje odstopanje pri algoritmu FCFS, razlog je da so v tem primeru dol\v zine opravil v povpre\v cju dalj\v se kot pri beta porazdelitvi. 
 \end{document}
