@@ -100,11 +100,15 @@ def SRPT(seznam):
             preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
             # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
-            if preostanek > 0 and preostanek > naslednje.length:            
-                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
-                vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
-                t = naslednje.arrival # premaknemo se na čas prekinitve
-                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+            if preostanek > 0:
+                if preostanek > naslednje.length:            
+                    dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                    vrsta[0] = (preostanek, opravilo) # popravimo preostali čas
+                    t = naslednje.arrival # premaknemo se na čas prekinitve
+                    break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+
+                else:
+                    break
 
             else: # izvajanje se bo končalo
                 dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
@@ -138,11 +142,15 @@ def PSJF(seznam):
             preostanek = cas - prekinitev # preostali čas trajanja po prihodu naslednjega opravila
 
             # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
-            if preostanek > 0 and dolzina > naslednje.length:
-                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
-                vrsta[0] = (dolzina, preostanek, opravilo) # popravimo preostali čas
-                t = naslednje.arrival # premaknemo se na čas prekinitve
-                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+            if preostanek > 0: 
+                if dolzina > naslednje.length:
+                    dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                    vrsta[0] = (dolzina, preostanek, opravilo) # popravimo preostali čas
+                    t = naslednje.arrival # premaknemo se na čas prekinitve
+                    break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+                
+                else:
+                    break
 
             else: # izvajanje se bo končalo
                 dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
@@ -212,12 +220,16 @@ def SPRPT(seznam):
             predvideno = predvideno - prekinitev
 
             # naslednje opravilo bo prišlo pred koncem izvajanja trenutnega ima manjši predvideni čas trajanja
-            if preostanek > 0 and predvideno > naslednje.predicted:
-                dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
-                vrsta[0] = (predvideno, preostanek, opravilo) # popravimo preostali čas
-                t = naslednje.arrival # premaknemo se na čas prekinitve
-                break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
+            if preostanek > 0:
+                if predvideno > naslednje.predicted:
+                    dogodki.append((t, opravilo, prekinitev, preostanek)) # zabeležimo izvajanje do prekinitve
+                    vrsta[0] = (predvideno, preostanek, opravilo) # popravimo preostali čas
+                    t = naslednje.arrival # premaknemo se na čas prekinitve
+                    break # prekinemo zanko, da dodamo naslednje opravilo v vrsto
 
+                else:
+                    break    
+                
             else: # izvajanje se bo končalo
                 dogodki.append((t, opravilo, cas, 0)) # zabeležimo dokončanje opravila
                 heappop(vrsta) # odstranimo opravilo iz vrste
