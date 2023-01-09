@@ -8,6 +8,7 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{listings}
 
 
 \begin{document}
@@ -35,11 +36,10 @@ Napovedi časov trajanja procesov se lahko določi z dodajanjem šumov pravim vr
 \section{Opis problema}
 
 S problemom razvrščanja opravil v vrsti se srečamo na različnih področjih. Za opravila nevemo nujno njihove dolžino trajanja, velikokrat pa jo laho ocenimo oziroma napovemo. 
-Zato je poleg optimalnosti algoritmov, ki za razvrščanje uporabljajo dejanske čase trajanja opravila, smiselno analizirati tudi, primere, ko se uporabljajo napovedani časi trajanja opravila.
-Opazovati je torej treba, povprečen čas čakanja opravila v vrsti. Želimo, da je ta čim krajši.
+Zato je poleg optimalnosti algoritmov, ki za razvrščanje uporabljajo dejanske čase trajanja opravila, smiselno analizirati tudi primere, ko se uporabljajo napovedani časi trajanja opravila.
+Opazovati je torej treba (povprečen) čas čakanja opravila v vrsti. Želimo, da je ta čim krajši.
 
-\section{Potek dela}
-\subsection{Algoritmi razvrščanja procesov}
+\section{Algoritmi razvrščanja procesov}
 
 Za reševanje problema razvrščanja procesov v vrsti se uporabljaj različni algoritmi. V nalogi sva uporabila naslednje osnovne algoritme:
 \begin{itemize}
@@ -52,28 +52,70 @@ Za reševanje problema razvrščanja procesov v vrsti se uporabljaj različni al
 Poleg osnovnih algoritmov sva napisala še variacje z napovedmi:
 
 \begin{itemize}
-  \item SPJF (Non-Preemptive Shortest Predicted Job First) za naslednjo izvedbo izbere proces z najkrajšim \textbf{napovedanim} časom trajanja. Ko se določi kateri proces se naj izvede naslednji, se ta izvede do konca. 
-  \item PSPJF (Preemptive Shortest Predicted Job First) proces z najkrajšim \textbf{napovedanim} časom trajanja se začne izvajati prvi. Ob prihodu novega procesa se le ta postavi v čakalno vrsto. Če pride proces s krajšim \textbf{napovedanim} trajanjem od procesa, ki se trenutno izvaja, se trenutni proces ustavi in vrne v vrsto. Začne se izvajati proces s krajšim \textbf{napovedanim} trajanjem.
-  \item SPRPT (Shortest Predicted remaining processing time) je algoritem podoben PSJF, vendar ta upošteva preostanek \textbf{napovedanega} trajanj procesov.
+  \item SPJF (Non-Preemptive Shortest Predicted Job First) za naslednjo izvedbo izbere proces z najkrajšim \textbf{napovedanim} časom trajanja. 
+  \item PSPJF (Preemptive Shortest Predicted Job First) razvršča procese glede na najkrajši \textbf{napovedan} čas trajanja.
+  \item SPRPT (Shortest Predicted remaining processing time) je algoritem podoben PSPJF, vendar ta upošteva preostanek \textbf{napovedanega} trajanj procesov.
 \end{itemize}
 
+Primer enega od algoritmov:
 
+\begin{verbatim}
 
-\subsection{Generiranje podatkov in predikcije}
-Za algoritme je bilo potrebno zgenerirat podatke za \v case prihodov opravil, dol\v zine teh opravil, in \v sum na opravilih. Za generiranje podatkov sva uporabila programski jezik R. \v Case prihodov opravil sva zgenerirala z eksponentno porazdelitvijo s parametrom $\lambda = 0.25$, torej $N \sim exp(0.25) $. \v Sum sva dodala z normalno porazdelitvijo, $ Z \sim N(0,\sigma) $ , kjer sva izbrala $\sigma = 0.01$ in nato \v se pogledala kako se grafi obna\v sajo glede na spremembo $\sigma$. Da bi se izognila dolžinam opravil in \v sumu velikosti 0 sva za minimalno dol\v zino opravila vzela $10^{-7}$.
+def PSPJF(seznam):
+  opravila = sorted((Opravilo(*t) for t in seznam), key=lambda item: item.arrival)
+  opravila = + [Opravilo(None, float('inf'), float('inf'), float('inf'))] 
+  vrsta = []
+  t = 0
+  cakanje = 0
+  for naslednje in opravila:
+      while vrsta: 
 
-\subsubsection{Generiranje prihodov Beta porazdelitve}
-    Za dol\v zine opravil sva v enem primeru uporabila Beta porazdelitev skalirano za 10, torej $X \sim Beta(\alpha, \beta) \times 10 $, z $ E[x] = 5$ in $Var[x] = 1 $ potem $\alpha = \beta = 12$. Zanimalo naju je, tudi \v ce se oblika grafa spremeni ko izberemo majhne dol\v zine opravil, to sva pogledala samo za Beta porazdelitev, tukaj sva vzela $ E[X] = 0.5$, $Var[X] = 0.01 $ in  $Var[Z] = 0.01 $, torej $X \sim Beta(12,12)$.
+          prekinitev = naslednje.arrival - t 
+          if prekinitev <= 0:
+              break 
 
-\subsubsection{Generiranje prihodov Normalne porazdelitve}
-  V drugem primeru sva uporabila Normalno porazdelitev $Y \sim |N(5,5)|$, vzela sva absolutno vrednost normalne porazdelitve, da bi se izognila negativnim vrednostim. DEJANSKA VREDNOST UPANJA IN VARIANCE. 
+          predvideno, cas, opravilo = vrsta[0]
+          preostanek = cas - prekinitev
 
+          if preostanek > 0:
+              if predvideno > naslednje.predicted:
+                  vrsta[0] = (predvideno, preostanek, opravilo) 
+                  t = naslednje.arrival
+                  break 
 
+              else:  
+                  break
+
+          else:
+              heappop(vrsta)
+              t += cas
+              cakanje += t - opravilo.length - opravilo.arrival
+      else:
+          t = naslednje.arrival 
+      
+      heappush(vrsta, (naslednje.predicted, naslednje.length, naslednje)) 
+  return cakanje 
+\end{verbatim}
+
+\section{Generiranje podatkov}
+Za algoritme je bilo potrebno zgenerirat podatke za čase prihodov opravil, dolžine teh opravil, in šum na opravilih. 
+Za generiranje podatkov sva uporabila programski jezik R. Čase prihodov opravil sva zgenerirala z eksponentno porazdelitvijo s parametrom $\lambda = 0.25$, torej $N \sim exp(0.25) $. 
+Dolžino opravil sva generirala z beta in normalno porazdelitvijo.
+Šum pa sva dodala z normalno porazdelitvijo $ Z \sim N(0, 0.01) $. 
+Želela sva analizirati, kako se čas čakanja spremeni glede na kvaliteto napovedi. Zato sva šum zgenerirala za $ Z \sim N(0, \sigma) $ pri različnh $\sigma$.
+Da bi se izognila dolžinam opravil in šumu velikosti 0 sva za minimalno dolžino opravila vzela $10^{-7}$. Da bi bili končni podatki bolj relevantni, sva poskuse izvajala po 100-krat in na koncu pri vzela povprečje razltatov.
+
+\subsection{Generiranje dolžin opravil Beta porazdelitve}
+Za generiranje dolžin opravil sva v enem primeru uporabila beta porazdelitev skalirano za 10, torej $X \sim Beta(\alpha, \beta) \times 10 $, s pričakovano vrednostjo $ E[X] = 5$ in varianco $Var[X] = 1 $. Od tod sva izračunala parametre za beta porazdelitev $\alpha = \beta = 12$.\\
+Zanimalo naju je tudi, če se oblika grafa čakanja spremeni, ko izberemo majhne dolžine opravil. To sva opazovala le za Beta porazdelitev. Izbrala sva si vrednosti za porazdelitev dolžine opravil $E[X] = 0.5$ in $Var[X] = 0.01 $ (torej $X \sim Beta(12,12)$) ter določila šum z $Var[Z] = 0.01 $.
+
+\subsection{Generiranje dolžin opravil Normalne porazdelitve}
+V drugem primeru sva uporabila Normalno porazdelitev $Y \sim |N(5,5)|$, vzela sva absolutno vrednost normalne porazdelitve, da bi se izognila negativnim vrednostim. DEJANSKA VREDNOST UPANJA IN VARIANCE. 
 
 \section{Analiza}
 \subsection{Analiza Beta porazdelitve}
 \includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi.pdf}
-\\Iz grafov lahko sklepamo, da \v cas povpre\v cnega \v cakanja nara\v s\v ca eksponentno glede na \v stevilo prihodov. Opazimo ve\v cje \v casovno odstopanje za algoritem FCFS, kar nas tudi ne presene\v ca, saj je ta algoritem \v ze za majhno \v stevilo prihodov relativno po\v casen. Mogo\v ce bolj presenetljiv rezultat je, da imamo zelo majhno odstopanje povpre\v cnega \v casa \v cakanja za algoritme z napovedmi, tudi \v ce pove\v camo varianco na 2.5, kar je relativno velik \v sum , ki znatno spremeni za\v cetne podatke. Iz grafov sklepava, da povpre\v cni \v cas \v cakanja nara\v s\v ca linearno s spremembo variance \v suma. Nisva pogledala obna\v sanje algoritmov za ve\v cje variance \v sumov, saj se nam to ni zdelo smiselno.\\
+\\Iz grafov lahko sklepamo, da čas povprečnega čakanja narašča eksponentno glede na število prihodov. Opazimo večje časovno odstopanje za algoritem FCFS, kar nas tudi ne preseneča, saj je ta algoritem že za majhno število prihodov relativno neučinkovit. Mogoče bolj presenetljiv rezultat je, da imamo zelo majhno odstopanje povprečnega časa čakanja za algoritme z napovedmi, tudi če povečamo varianco na 2.5, kar je relativno velik šum, ki znatno spremeni začetne podatke. Iz grafov sklepava, da povprečni čas čakanja narašča linearno s spremembo variance šuma. Nisva pogledala obnašanje algoritmov za večje variance šumov, saj se nam to ni zdelo smiselno.\\
 \includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi_majhna.pdf}
 \\
 Tu so zelo presenetljivi rezultati, ki jih nerazumem
@@ -81,5 +123,5 @@ Tu so zelo presenetljivi rezultati, ki jih nerazumem
 \subsection{Analiza Normalne porazdelitve}
 
 \includegraphics[width=12.1cm,keepaspectratio]{Normalna_grafi.pdf}
-\\ Lahko sklepamo podobno kot pri prvi analizi, vendar opazimo \v se ve\v cje odstopanje pri algoritmu FCFS, razlog je da so v tem primeru dol\v zine opravil v povpre\v cju dalj\v se kot pri beta porazdelitvi. 
+\\ Lahko sklepamo podobno kot pri prvi analizi, vendar opazimo še večje odstopanje pri algoritmu FCFS, razlog je da so v tem primeru dolžine opravil v povprečju daljše kot pri beta porazdelitvi. 
 \end{document}
