@@ -30,7 +30,7 @@ Tabela = df %>% pivot_longer( !x, names_to = "Algoritmi", values_to = "Povprecno
 #=========================================================================================== RISANJE POVP. CASA CAKANJA ==================PREVERI ALPHA IN BETA NUJNO===========================
 cakanje_beta = ggplot(Tabela, aes(x=x, y = `Povprecno cakanje`, col = Algoritmi)) +
   geom_line()+
-  geom_point() + labs(title = "Povprečni čas čakanja opravil za Beta(12,12)*10", subtitle = "E = 5, Var = 1" ,y = "Povprečno čakanje (k=100)", x = "Število prihodov") +
+  geom_point() + labs(title = "Povprečni čas čakanja opravil",subtitle = "E = 5, Var = 1, k = 100" ,y = "Povprečno čakanje", x = "Število prihodov") +
   ylim(0, 1300) +
   scale_colour_manual(values=c('greenyellow','lightpink1',"tomato3", "lightskyblue"))
 #===================================================================================================================================================================
@@ -47,8 +47,7 @@ prihodi_beta = ggplot(b_24, aes(x=cas_prihoda, y=dolzina_opravila)) +
                    yend=dolzina_opravila), colour = "yellowgreen") +
   labs(y = "Dolžina opravila", x = "Čas prihoda") +
   geom_line(aes(y=z), colour="grey",linetype="dashed") +
-  labs(title="Prihodi opravil / dolžina opravil", 
-       subtitle="n = 24, lambda = 0.25") +
+  labs(subtitle="n = 24, lambda = 0.25") +
   ylim(0,8) +
   xlim(0,12)
 #=========================================================================
@@ -63,7 +62,7 @@ Tabela_predictions = df_predictions %>% pivot_longer( !x, names_to = "Algoritmi"
 #====================================================================================== RISANJE POVP. CASA CAKANJA NAPOVEDI ================================================================
 cakanje_beta_predictions = ggplot(Tabela_predictions, aes(x=x, y = `Povprecno cakanje`, col = Algoritmi)) +
   geom_line()+
-  geom_point() + labs(title = "Povprečni čas čakanja glede na napoved opravil", subtitle = "Šum ~ N(0,0.01)" ,y = "Povprečno čakanje napovedi (k=100)", x = "Število prihodov") +
+  geom_point() + labs(title = "Povprečni čas čakanja napovedi", subtitle = "Šum ~ N(0,0.01)" ,y = "Povprečno čakanje napovedi", x = "Število prihodov") +
   ylim(0, 1300) +
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue"))
 #==================================================================================================================================================================
@@ -78,7 +77,7 @@ Tabela_var = df_var %>% pivot_longer( !Var, names_to = "Algoritmi", values_to = 
 # RABIL POPRAVIT PODATKE
 cakanje_varianca = ggplot(Tabela_var, aes(x=Var, y = `Povprecno cakanje`, col = Algoritmi)) +
   geom_line()+
-  geom_point() + labs(title = "Povprečni čas čakanja opravil za Beta(12,12)*10", subtitle = "n = 4" ,y = "Povprečno čakanje (k=100)", x = "Varianca šuma") +
+  geom_point() + labs(title = "V odvisnosti od variance", subtitle = "n = 4" ,y = "Povprečno čakanje", x = "Varianca šuma") +
   geom_hline(yintercept=17.20937,linetype="dashed", color = "greenyellow") +
   annotate("text", x=0, y=17.6, label="FCFS", size = 2.7, color = "green3") +
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue")) +
@@ -99,7 +98,7 @@ Tabela_var_24 = df_var_24 %>% pivot_longer( !Var, names_to = "Algoritmi", values
 # RABIL POPRAVIT PODATKE
 cakanje_varianca_24 = ggplot(Tabela_var_24, aes(x=Var, y = `Povprecno cakanje`, col = Algoritmi)) +
   geom_line()+
-  geom_point() + labs(title = "Povprečni čas čakanja opravil za Beta(12,12)*10", subtitle = "n = 24, FCFS = 1291.643" ,y = "Povprečno čakanje (k=100)", x = "Varianca šuma") +
+  geom_point() + labs(subtitle = "n = 24, FCFS = 1291.643" ,y = "Povprečno čakanje", x = "Varianca šuma") +
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue")) +
   geom_hline(yintercept=1144.338, linetype="dashed", color = "lightpink1") +
   geom_hline(yintercept=1147.34, linetype="dashed", color = "tomato3") +
