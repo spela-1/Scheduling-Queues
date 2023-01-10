@@ -10,7 +10,6 @@
 \usepackage{graphicx}
 \usepackage{listings}
 
-
 \begin{document}
 
 \title{%
@@ -126,7 +125,24 @@ Zanimalo naju je tudi, če se oblika grafa čakanja spremeni, ko izberemo majhne
 \\
 Zanimalo nas je, če bodo odstopanja med algoritmi večja, če zmanjšamo pričakovani čas dolžin opravil. Vendar temu ni bilo tako, vidimo da res varianca vpiva na odstopanje med algoritmi. 
 
+\begin{center}
+\begin{tabular}{||c c c c c c c c||} 
+ \hline
+ n & FCFS & SJF & SRPT & PSJF & SPJF & SPRPT & PSPJF \\ [0.5ex] 
+ \hline\hline
+ 4 & 0.1541 & 0.1484 & 0.0671 & 0.1915 & 0.1484 & 0.0671 & 0.1915\\ 
+ \hline
+ 8 & 1.9419 & 1.5925 & 0.9991 & 1.5337 & 1.5926 & 1.0023 & 1.5349 \\
+ \hline
+ 12 & 5.1319 & 3.9677 & 2.8428 & 4.1024 & 3.9684 & 2.8572 & 4.1122 \\
+ \hline
+\end{tabular}
+\end{center}
+
+
 \includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi_razclenitev1.pdf}
+
+
 \includegraphics[width=12.1cm,keepaspectratio]{Beta_grafi_razclenitev2.pdf}
 \\Vidimo, da četudi imamo neke podatke, kjer je FCFS hitrejši kot PSPJF za malo prihodov, za več prihodov opravil ni več tako, in FCFS postane znatno počasnejši. To da je algoritem FCFS hitrejši kot PSJF pripišemo manjši varianci dolžin opravil.
 
