@@ -71,7 +71,7 @@ cakanje_norm_predictions = ggplot(Tabela_predictions, aes(x=x, y = `Povprecno ca
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue"))
 #==================================================================================================================================================================
 
-Normalna_porazdelitev_v = read.csv("normalna_v_4.csv")
+Normalna_porazdelitev_v = read.csv("normalna4_v.csv")
 Normalna_v = Normalna_porazdelitev_v[,5:7]
 Var = c(2.5, 2, 1.5 , 1 , 0.5 , 0.01)
 df_var = cbind(Var ,Normalna_v)
@@ -85,12 +85,12 @@ cakanje_varianca_n = ggplot(Tabela_var, aes(x=Var, y = `Povprecno cakanje`, col 
   geom_hline(yintercept=23.67987,linetype="dashed", color = "greenyellow") +
   annotate("text", x=0, y=23.97987, label="FCFS", size = 2.7, color = "green3") +
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue")) +
-  geom_hline(yintercept=9.512974, linetype="dashed", color = "lightpink1") +
-  annotate("text", x=0, y=9.812974, label="PSJF", size = 2.7, color = "lightpink1") +
-  geom_hline(yintercept=13.54355, linetype="dashed", color = "tomato3") +
-  annotate("text", x=0, y=13.84355, label="SJF", size = 2.7, color = "tomato3") +
-  geom_hline(yintercept=8.511992, linetype="dashed", color = "lightskyblue") +
-  annotate("text", x=0, y=8.811992, label="SRPT", size = 2.7, color = "lightskyblue")
+  geom_hline(yintercept=14.37206, linetype="dashed", color = "lightpink1") +
+  annotate("text", x=0, y=14.67206, label="PSJF", size = 2.7, color = "lightpink1") +
+  geom_hline(yintercept=19.75076, linetype="dashed", color = "tomato3") +
+  annotate("text", x=0, y=20, label="SJF", size = 2.7, color = "tomato3") +
+  geom_hline(yintercept=12.55601, linetype="dashed", color = "lightskyblue") +
+  annotate("text", x=0, y=12.85601, label="SRPT", size = 2.7, color = "lightskyblue")
 #================================================================================================================================================================================
 
 #================================================================================== RISANJE PRIHODOV =================================
@@ -107,7 +107,7 @@ prihodi_norm_n4 = ggplot(n_4, aes(x=cas_prihoda, y=dolzina_opravila)) +
   xlim(0, 12) + ylim(0,19)
 #=========================================================================
 
-Normalna_porazdelitev_v_24 = read.csv("normalna_v_24.csv")
+Normalna_porazdelitev_v_24 = read.csv("normalna_v.csv")
 Normalna_v_24 = Normalna_porazdelitev_v_24[,5:7]
 Var = c(2.5, 2, 1.5 , 1 , 0.5 , 0.01)
 df_var_24 = cbind(Var ,Normalna_v_24)
@@ -118,9 +118,9 @@ cakanje_varianca_n_24 = ggplot(Tabela_var_24, aes(x=Var, y = `Povprecno cakanje`
   geom_line()+
   geom_point() + labs(title = "Povprečni čas čakanja opravil za |N(5,5)|", subtitle = "n = 24 , FCFS = 1553.008" ,y = "Povprečno čakanje (k=100)", x = "Varianca šuma") +
   scale_colour_manual(values=c('lightpink3',"tomato4", "lightslateblue")) +
-  geom_hline(yintercept=896.2594, linetype="dashed", color = "lightpink1") +
-  geom_hline(yintercept=932.2566, linetype="dashed", color = "tomato3") +
-  geom_hline(yintercept=895.3161, linetype="dashed", color = "lightskyblue")
+  geom_hline(yintercept=934.6914, linetype="dashed", color = "lightpink1") +
+  geom_hline(yintercept=978.2421, linetype="dashed", color = "tomato3") +
+  geom_hline(yintercept=930.8688, linetype="dashed", color = "lightskyblue")
 #================================================================================================================================================================================
 
 # CE KDO ZNA PREUREDIT VRSTNI RED LEGENDE BI BLO KUL , JZ GREM JOKAT
