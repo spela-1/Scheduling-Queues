@@ -42,7 +42,7 @@ generiranje_beta = function(E, Var, n, burst_time, shum, rt, k) {
 
 #GENERIRANJE
 
-#sprememba n=5, 10, 50, 100, 500, 1000 (pri var=0.01)
+#sprememba n=5, 10, 50, 100, 500, 1000 (pri var=0.01) SPREMENIS SUM NA BASLA
 
 n_5 = generiranje_beta( 0.5, 0.01, 4, 10 , 0.01, 0.25, 100)
 n_10 = generiranje_beta( 0.5, 0.01, 8, 10 , 0.01, 0.25, 100)
